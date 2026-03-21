@@ -15,11 +15,14 @@
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'Lato',sans-serif;background:var(--cream);min-height:100vh;overflow-x:hidden;}
 
-    /* ── CANVAS ── */
-    #canvas-fw,#canvas-cf{position:fixed;inset:0;pointer-events:none;z-index:999;}
+    /* canvas único encima de todo */
+    #canvas-fx{
+      position:fixed;top:0;left:0;width:100%;height:100%;
+      pointer-events:none;z-index:50;
+    }
 
-    /* ── PARTICLES ── */
-    #particles{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;}
+    /* partículas DOM */
+    #particles{position:fixed;inset:0;pointer-events:none;z-index:3;overflow:hidden;}
     .particle{position:absolute;opacity:0;animation:floatUp linear infinite;}
     @keyframes floatUp{
       0%{opacity:0;transform:translateY(0) rotate(0deg) scale(.5);}
@@ -27,113 +30,7 @@
       100%{opacity:0;transform:translateY(-100vh) rotate(720deg) scale(1.2);}
     }
 
-    /* ════════════════════════════════
-       PERSONAJES ANIMADOS EN COSTADOS
-    ════════════════════════════════ */
-    #side-characters{
-      position:fixed;inset:0;pointer-events:none;z-index:5;overflow:hidden;
-    }
-
-    /* ── Unicornio corriendo por el fondo ── */
-    .unicorn{
-      position:absolute;bottom:8%;
-      width:90px;height:70px;
-      animation:runAcross 12s linear infinite;
-      filter:drop-shadow(0 4px 8px rgba(168,85,247,.4));
-    }
-    @keyframes runAcross{
-      0%  {left:-120px;transform:scaleX(1);}
-      49% {left:110%;transform:scaleX(1);}
-      50% {left:110%;transform:scaleX(-1);}
-      99% {left:-120px;transform:scaleX(-1);}
-      100%{left:-120px;transform:scaleX(1);}
-    }
-    .unicorn svg{animation:unicornBob 0.35s ease-in-out infinite alternate;}
-    @keyframes unicornBob{from{transform:translateY(0);}to{transform:translateY(-5px);}}
-
-    /* ── Hada volando en esquina izquierda ── */
-    .fairy-left{
-      position:fixed;left:-10px;top:30%;
-      width:55px;height:80px;
-      animation:fairyDance 4s ease-in-out infinite;
-      filter:drop-shadow(0 0 8px rgba(244,114,182,.7));
-      z-index:5;
-    }
-    @keyframes fairyDance{
-      0%  {transform:translateY(0) translateX(0) rotate(-5deg);}
-      25% {transform:translateY(-30px) translateX(12px) rotate(5deg);}
-      50% {transform:translateY(-10px) translateX(20px) rotate(-3deg);}
-      75% {transform:translateY(-40px) translateX(8px) rotate(8deg);}
-      100%{transform:translateY(0) translateX(0) rotate(-5deg);}
-    }
-
-    /* ── Hada volando en esquina derecha ── */
-    .fairy-right{
-      position:fixed;right:-10px;top:45%;
-      width:55px;height:80px;
-      animation:fairyDanceR 5s ease-in-out infinite;
-      filter:drop-shadow(0 0 8px rgba(167,139,250,.7));
-      z-index:5;transform:scaleX(-1);
-    }
-    @keyframes fairyDanceR{
-      0%  {transform:scaleX(-1) translateY(0) translateX(0);}
-      30% {transform:scaleX(-1) translateY(-35px) translateX(10px);}
-      60% {transform:scaleX(-1) translateY(-15px) translateX(18px);}
-      100%{transform:scaleX(-1) translateY(0) translateX(0);}
-    }
-
-    /* ── Mariposas volando ── */
-    .butterfly{
-      position:fixed;
-      width:40px;height:36px;
-      animation:bflyPath var(--dur,7s) ease-in-out infinite var(--delay,0s);
-      filter:drop-shadow(0 2px 4px rgba(244,114,182,.5));
-      z-index:5;
-    }
-    .butterfly svg .wing{animation:flapWing .25s ease-in-out infinite alternate;}
-    @keyframes flapWing{from{transform:scaleX(1);}to{transform:scaleX(0.2);}}
-    @keyframes bflyPath{
-      0%  {transform:translate(0,0) rotate(0deg);}
-      20% {transform:translate(30px,-40px) rotate(15deg);}
-      40% {transform:translate(-20px,-70px) rotate(-10deg);}
-      60% {transform:translate(40px,-40px) rotate(20deg);}
-      80% {transform:translate(10px,-20px) rotate(-5deg);}
-      100%{transform:translate(0,0) rotate(0deg);}
-    }
-
-    /* ── Estrellitas parpadeando en esquinas ── */
-    .corner-deco{
-      position:fixed;font-size:2rem;z-index:5;pointer-events:none;
-      animation:twinkle var(--tw,2s) ease-in-out infinite var(--twd,0s);
-    }
-    @keyframes twinkle{
-      0%,100%{opacity:.2;transform:scale(.8) rotate(0deg);}
-      50%{opacity:1;transform:scale(1.3) rotate(20deg);}
-    }
-    .corner-deco.tl{top:12px;left:12px;}
-    .corner-deco.tr{top:12px;right:12px;}
-    .corner-deco.bl{bottom:12px;left:12px;}
-    .corner-deco.br{bottom:12px;right:12px;}
-
-    /* ── Mini princesa corriendo (izquierda→derecha arriba) ── */
-    .mini-princess{
-      position:fixed;top:12%;
-      width:50px;height:70px;
-      animation:runTop 18s linear infinite 3s;
-      filter:drop-shadow(0 3px 6px rgba(219,39,119,.4));
-      z-index:5;
-    }
-    @keyframes runTop{
-      0%  {left:-80px;transform:scaleX(1);}
-      48% {left:105%;transform:scaleX(1);}
-      50% {left:105%;transform:scaleX(-1);}
-      98% {left:-80px;transform:scaleX(-1);}
-      100%{left:-80px;transform:scaleX(1);}
-    }
-    .mini-princess svg{animation:runBob .3s ease-in-out infinite alternate;}
-    @keyframes runBob{from{transform:translateY(0) rotate(-3deg);}to{transform:translateY(-4px) rotate(3deg);}}
-
-    /* ── SCREEN NAME ── */
+    /* ── PANTALLA NOMBRE ── */
     #screen-name{
       position:relative;z-index:10;min-height:100vh;
       display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -148,7 +45,7 @@
       -webkit-background-clip:text;-webkit-text-fill-color:transparent;
       text-align:center;margin:1rem 0 .4rem;line-height:1.3;
     }
-    #screen-name>p{color:var(--purple);font-size:1.05rem;margin-bottom:2.2rem;text-align:center;}
+    #screen-name .intro{color:var(--purple);font-size:1.05rem;margin-bottom:2.2rem;text-align:center;}
     .input-wrap{display:flex;flex-direction:column;align-items:center;gap:1rem;width:100%;max-width:400px;}
     .input-wrap input{
       width:100%;padding:1rem 1.4rem;border:3px solid var(--pink);border-radius:50px;
@@ -166,22 +63,22 @@
       position:relative;overflow:hidden;
     }
     .btn-magic::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.25),transparent);border-radius:inherit;}
-    .btn-magic:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 10px 32px rgba(168,85,247,.55);}
+    .btn-magic:hover{transform:translateY(-3px) scale(1.04);}
     .btn-magic:active{transform:scale(.97);}
 
-    /* ── ENVELOPE OVERLAY ── */
+    /* ── SOBRE ── */
     #env-overlay{
-      display:none;position:fixed;inset:0;z-index:500;
+      display:none;position:fixed;inset:0;z-index:200;
       align-items:center;justify-content:center;flex-direction:column;
-      background:rgba(20,0,50,.8);backdrop-filter:blur(8px);
+      background:rgba(20,0,50,.82);backdrop-filter:blur(8px);
     }
     #env-overlay.active{display:flex;}
     .env-scene{perspective:800px;cursor:pointer;}
     .env-wrap{position:relative;width:320px;height:210px;transform-style:preserve-3d;animation:envFloat 2.5s ease-in-out infinite;}
     @keyframes envFloat{0%,100%{transform:translateY(0) rotateY(-3deg);}50%{transform:translateY(-12px) rotateY(3deg);}}
     .env-body{position:absolute;inset:0;background:linear-gradient(160deg,#fce7f3,#ede9fe);border-radius:8px 8px 18px 18px;border:3px solid rgba(244,114,182,.55);box-shadow:0 20px 60px rgba(0,0,0,.5);}
-    .env-v-left{position:absolute;bottom:0;left:0;width:50%;height:55%;background:linear-gradient(135deg,rgba(232,121,249,.35),transparent);clip-path:polygon(0 100%,100% 100%,0 0);border-radius:0 0 0 18px;}
-    .env-v-right{position:absolute;bottom:0;right:0;width:50%;height:55%;background:linear-gradient(225deg,rgba(167,139,250,.35),transparent);clip-path:polygon(100% 100%,0 100%,100% 0);border-radius:0 0 18px 0;}
+    .env-vl{position:absolute;bottom:0;left:0;width:50%;height:55%;background:linear-gradient(135deg,rgba(232,121,249,.35),transparent);clip-path:polygon(0 100%,100% 100%,0 0);border-radius:0 0 0 18px;}
+    .env-vr{position:absolute;bottom:0;right:0;width:50%;height:55%;background:linear-gradient(225deg,rgba(167,139,250,.35),transparent);clip-path:polygon(100% 100%,0 100%,100% 0);border-radius:0 0 18px 0;}
     .env-flap{position:absolute;top:0;left:0;right:0;height:140px;background:linear-gradient(160deg,#f9a8d4,#c084fc);clip-path:polygon(0 0,100% 0,50% 100%);border-radius:8px 8px 0 0;transform-origin:top center;transform:rotateX(0deg);transition:transform .75s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;}
     .env-flap.open{transform:rotateX(-175deg);}
     .env-letter{position:absolute;top:24px;left:50%;width:270px;background:white;border-radius:10px;padding:1.1rem;text-align:center;box-shadow:0 6px 20px rgba(0,0,0,.25);transform:translateY(50px) translateX(-50%);opacity:0;z-index:2;transition:transform .85s cubic-bezier(.34,1.56,.64,1) .35s,opacity .5s .35s;}
@@ -194,18 +91,24 @@
     .env-hint{color:rgba(255,255,255,.6);font-size:.82rem;margin-top:.5rem;text-align:center;animation:pls 1.4s ease-in-out infinite;}
     @keyframes pls{0%,100%{opacity:.35;}50%{opacity:1;}}
 
-    /* ── SCREEN INVITE ── */
-    #screen-invite{display:none;position:relative;z-index:10;min-height:100vh;background:linear-gradient(160deg,#fdf2f8 0%,#ede9fe 50%,#fce7f3 100%);padding:2rem 1rem 4rem;}
-    .me{animation:magicAppear .9s cubic-bezier(.34,1.56,.64,1) both;}
-    .su1{animation:slideUp .7s .1s ease both;}
-    .su4{animation:slideUp .7s .4s ease both;}
-    @keyframes magicAppear{0%{opacity:0;transform:scale(.3) rotate(-10deg);}60%{transform:scale(1.06) rotate(2deg);}100%{opacity:1;transform:scale(1) rotate(0);}}
+    /* ── INVITACIÓN ── */
+    #screen-invite{
+      display:none;position:relative;z-index:10;min-height:100vh;
+      background:linear-gradient(160deg,#fdf2f8 0%,#ede9fe 50%,#fce7f3 100%);
+      padding:2rem 1rem 4rem;
+    }
+    .anim-pop{animation:magicPop .9s cubic-bezier(.34,1.56,.64,1) both;}
+    .anim-up1{animation:slideUp .7s .15s ease both;}
+    .anim-up2{animation:slideUp .7s .4s ease both;}
+    @keyframes magicPop{0%{opacity:0;transform:scale(.3) rotate(-10deg);}60%{transform:scale(1.06) rotate(2deg);}100%{opacity:1;transform:scale(1) rotate(0);}}
     @keyframes slideUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+
     .invite-header{text-align:center;padding:2rem 1rem 1rem;}
     .invite-header .sparkles{font-size:2rem;letter-spacing:.3rem;}
     .invite-header .ty{font-family:'Great Vibes',cursive;font-size:clamp(1.4rem,4vw,2rem);color:var(--purple);margin:.4rem 0;}
     .invite-header .tng{font-family:'Cinzel Decorative',serif;font-size:clamp(1.8rem,6vw,3.2rem);background:linear-gradient(135deg,var(--pink-dark),var(--purple-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2;}
     .invite-header .sub{font-family:'Great Vibes',cursive;color:var(--gold);font-size:1.4rem;margin-top:.3rem;}
+
     .invite-card{max-width:620px;margin:1.5rem auto;background:rgba(255,255,255,.78);backdrop-filter:blur(12px);border-radius:32px;border:3px solid rgba(244,114,182,.4);box-shadow:0 20px 60px rgba(168,85,247,.2),0 4px 16px rgba(244,114,182,.25);overflow:hidden;}
     .princess-img-wrap{position:relative;height:280px;background:linear-gradient(160deg,#fce7f3,#ede9fe,#fce7f3);display:flex;align-items:center;justify-content:center;overflow:hidden;}
     .princess-img-wrap::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f472b6' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");}
@@ -215,251 +118,61 @@
     @keyframes sbadge{0%,100%{transform:rotate(-8deg) scale(1);}50%{transform:rotate(8deg) scale(1.08);}}
     .age-badge .num{font-family:'Cinzel Decorative',serif;font-size:1.6rem;color:#fff;line-height:1;}
     .age-badge .years{font-size:.55rem;color:#fff;font-weight:700;letter-spacing:.05rem;}
+
     .card-body{padding:1.8rem 2rem 2rem;text-align:center;}
     .anna-name{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,8vw,3.5rem);background:linear-gradient(135deg,var(--pink-dark) 0%,var(--purple-dark) 50%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.2rem;animation:shimmer 3s ease-in-out infinite;}
     @keyframes shimmer{0%,100%{filter:brightness(1);}50%{filter:brightness(1.2) drop-shadow(0 0 8px rgba(245,158,11,.5));}}
     .tagline{font-family:'Great Vibes',cursive;color:var(--purple);font-size:1.3rem;margin-bottom:1.4rem;}
+
     .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:1.2rem 0;}
-    @media(max-width:420px){.info-grid{grid-template-columns:1fr;}}
+    .full-col{grid-column:1/-1;}
+    @media(max-width:420px){.info-grid{grid-template-columns:1fr;}.full-col{grid-column:1;}}
     .info-box{background:linear-gradient(135deg,rgba(252,231,243,.7),rgba(237,233,254,.7));border:2px solid rgba(244,114,182,.3);border-radius:16px;padding:.9rem .8rem;transition:transform .2s;}
     .info-box:hover{transform:scale(1.04);}
     .info-box .icon{font-size:1.5rem;}
     .info-box .label{font-size:.7rem;color:var(--purple);font-weight:700;letter-spacing:.08rem;text-transform:uppercase;margin:.2rem 0;}
     .info-box .value{font-size:.92rem;color:#581c87;font-weight:700;line-height:1.3;}
+
     .countdown-section{margin:1.6rem 0 .5rem;}
     .countdown-section h3{font-family:'Cinzel Decorative',serif;font-size:.85rem;color:var(--purple-dark);letter-spacing:.1rem;margin-bottom:.9rem;}
     .countdown-grid{display:flex;justify-content:center;gap:.7rem;flex-wrap:wrap;}
     .cd-box{background:linear-gradient(135deg,var(--pink-dark),var(--purple-dark));border-radius:14px;padding:.7rem .9rem;min-width:64px;text-align:center;box-shadow:0 4px 16px rgba(168,85,247,.35);}
-    .cd-box .num{font-family:'Cinzel Decorative',serif;font-size:1.8rem;color:#fff;line-height:1;display:block;}
-    .cd-box .lbl{font-size:.6rem;color:rgba(255,255,255,.8);letter-spacing:.06rem;text-transform:uppercase;}
+    .cd-box .cd-num{font-family:'Cinzel Decorative',serif;font-size:1.8rem;color:#fff;line-height:1;display:block;}
+    .cd-box .cd-lbl{font-size:.6rem;color:rgba(255,255,255,.8);letter-spacing:.06rem;text-transform:uppercase;}
     .party-msg{font-family:'Cinzel Decorative',serif;font-size:1.1rem;background:linear-gradient(135deg,var(--pink-dark),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:none;}
+
     .divider{display:flex;align-items:center;gap:.6rem;margin:1.4rem 0;color:var(--pink);font-size:1.1rem;}
     .divider::before,.divider::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--pink),transparent);}
+
+    .wa-text{color:#6b21a8;font-size:.9rem;margin-bottom:1rem;}
     .wa-btn{display:inline-flex;align-items:center;gap:.6rem;padding:1rem 2.2rem;background:linear-gradient(135deg,#22c55e,#16a34a);border:none;border-radius:50px;cursor:pointer;color:#fff;font-family:'Cinzel Decorative',serif;font-size:.9rem;box-shadow:0 6px 24px rgba(34,197,94,.4);text-decoration:none;transition:transform .2s,box-shadow .2s;}
-    .wa-btn:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 10px 32px rgba(34,197,94,.5);}
-    .invite-footer{text-align:center;padding:1.5rem;color:var(--purple);font-family:'Great Vibes',cursive;font-size:1.4rem;}
+    .wa-btn:hover{transform:translateY(-3px) scale(1.04);}
     .stars-row{font-size:1.3rem;letter-spacing:.25rem;margin:.4rem 0;}
+    .invite-footer{text-align:center;padding:1.5rem;color:var(--purple);font-family:'Great Vibes',cursive;font-size:1.4rem;}
   </style>
 </head>
 <body>
 
-<canvas id="canvas-fw"></canvas>
-<canvas id="canvas-cf"></canvas>
+<!-- UN SOLO CANVAS para todo: personajes + fuegos + confeti -->
+<canvas id="canvas-fx"></canvas>
 <div id="particles"></div>
 
-<!-- ════════════════════════════════════════
-     PERSONAJES ANIMADOS EN COSTADOS
-════════════════════════════════════════ -->
-<div id="side-characters">
-
-  <!-- Unicornio corriendo -->
-  <div class="unicorn">
-    <svg viewBox="0 0 100 75" xmlns="http://www.w3.org/2000/svg">
-      <!-- cuerpo -->
-      <ellipse cx="50" cy="48" rx="28" ry="16" fill="#f9a8d4"/>
-      <!-- cuello -->
-      <path d="M32 42 Q28 28 34 20 Q40 12 48 18 Q42 26 38 38Z" fill="#f9a8d4"/>
-      <!-- cabeza -->
-      <ellipse cx="36" cy="17" rx="11" ry="9" fill="#fce7f3"/>
-      <!-- cuerno -->
-      <polygon points="30,10 34,0 38,10" fill="#f59e0b"/>
-      <line x1="34" y1="0" x2="32" y2="8" stroke="#fde68a" stroke-width="1"/>
-      <!-- oreja -->
-      <polygon points="40,10 43,4 46,10" fill="#f9a8d4"/>
-      <!-- ojo -->
-      <circle cx="33" cy="17" r="2.5" fill="#7c3aed"/>
-      <circle cx="33.8" cy="16.2" r="0.8" fill="white"/>
-      <!-- melena -->
-      <path d="M44 14 Q50 8 52 18 Q48 16 44 20Z" fill="#c084fc"/>
-      <path d="M46 18 Q54 12 55 22 Q50 20 46 24Z" fill="#f472b6"/>
-      <path d="M48 22 Q56 18 56 28 Q52 26 48 28Z" fill="#fde68a"/>
-      <!-- patas (animadas con keyframes en JS) -->
-      <rect x="30" y="62" width="7" height="12" rx="3" fill="#f9a8d4" class="leg-fl"/>
-      <rect x="40" y="62" width="7" height="12" rx="3" fill="#f9a8d4" class="leg-fr"/>
-      <rect x="54" y="62" width="7" height="12" rx="3" fill="#f9a8d4" class="leg-bl"/>
-      <rect x="63" y="62" width="7" height="12" rx="3" fill="#f9a8d4" class="leg-br"/>
-      <!-- cola -->
-      <path d="M78 42 Q92 35 88 50 Q84 55 80 48Z" fill="#c084fc"/>
-      <path d="M78 46 Q95 42 90 56 Q86 60 82 52Z" fill="#f472b6"/>
-      <path d="M78 50 Q94 50 88 62 Q84 65 80 56Z" fill="#fde68a"/>
-      <!-- estrellas mágicas -->
-      <text x="58" y="30" font-size="8" fill="#f59e0b" opacity="0.8">✦</text>
-      <text x="65" y="22" font-size="6" fill="#f472b6" opacity="0.7">✦</text>
-    </svg>
-  </div>
-
-  <!-- Hada izquierda -->
-  <div class="fairy-left">
-    <svg viewBox="0 0 55 90" xmlns="http://www.w3.org/2000/svg">
-      <!-- alas izq -->
-      <ellipse cx="10" cy="38" rx="14" ry="22" fill="rgba(196,181,253,0.55)" transform="rotate(-20,10,38)"/>
-      <ellipse cx="8" cy="52" rx="10" ry="14" fill="rgba(249,168,212,0.5)" transform="rotate(-30,8,52)"/>
-      <!-- cuerpo -->
-      <path d="M22 45 Q18 55 20 68 Q27 72 34 68 Q36 55 32 45Z" fill="#c084fc"/>
-      <!-- cabeza -->
-      <circle cx="27" cy="32" r="12" fill="#fde8d8"/>
-      <!-- pelo -->
-      <path d="M16 28 Q18 15 27 16 Q36 15 38 28 Q32 20 27 22 Q22 20 16 28Z" fill="#f59e0b"/>
-      <path d="M15 30 Q12 42 15 50" stroke="#f59e0b" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M39 30 Q42 42 39 50" stroke="#f59e0b" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <!-- ojos -->
-      <circle cx="23" cy="32" r="2.5" fill="#7c3aed"/><circle cx="31" cy="32" r="2.5" fill="#7c3aed"/>
-      <circle cx="23.7" cy="31.3" r=".9" fill="white"/><circle cx="31.7" cy="31.3" r=".9" fill="white"/>
-      <!-- sonrisa -->
-      <path d="M23 38 Q27 42 31 38" stroke="#db2777" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      <!-- coronita -->
-      <polygon points="20,22 22,17 24,22 27,15 30,22 32,17 34,22" fill="#f59e0b"/>
-      <!-- alas der -->
-      <ellipse cx="44" cy="38" rx="14" ry="22" fill="rgba(196,181,253,0.55)" transform="rotate(20,44,38)"/>
-      <ellipse cx="46" cy="52" rx="10" ry="14" fill="rgba(249,168,212,0.5)" transform="rotate(30,46,52)"/>
-      <!-- piernas -->
-      <line x1="22" y1="68" x2="20" y2="80" stroke="#fde8d8" stroke-width="4" stroke-linecap="round"/>
-      <line x1="32" y1="68" x2="34" y2="80" stroke="#fde8d8" stroke-width="4" stroke-linecap="round"/>
-      <!-- varita -->
-      <line x1="36" y1="52" x2="48" y2="38" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="48" cy="37" r="5" fill="#f472b6" opacity=".9"/>
-      <text x="44" y="30" font-size="10" fill="#fde68a">✦</text>
-    </svg>
-  </div>
-
-  <!-- Hada derecha -->
-  <div class="fairy-right">
-    <svg viewBox="0 0 55 90" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="10" cy="38" rx="14" ry="22" fill="rgba(196,181,253,0.55)" transform="rotate(-20,10,38)"/>
-      <ellipse cx="8" cy="52" rx="10" ry="14" fill="rgba(249,168,212,0.5)" transform="rotate(-30,8,52)"/>
-      <path d="M22 45 Q18 55 20 68 Q27 72 34 68 Q36 55 32 45Z" fill="#e879f9"/>
-      <circle cx="27" cy="32" r="12" fill="#fde8d8"/>
-      <path d="M16 28 Q18 15 27 16 Q36 15 38 28 Q32 20 27 22 Q22 20 16 28Z" fill="#c084fc"/>
-      <path d="M15 30 Q12 42 15 50" stroke="#c084fc" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M39 30 Q42 42 39 50" stroke="#c084fc" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <circle cx="23" cy="32" r="2.5" fill="#581c87"/><circle cx="31" cy="32" r="2.5" fill="#581c87"/>
-      <circle cx="23.7" cy="31.3" r=".9" fill="white"/><circle cx="31.7" cy="31.3" r=".9" fill="white"/>
-      <path d="M23 38 Q27 42 31 38" stroke="#db2777" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      <polygon points="20,22 22,17 24,22 27,15 30,22 32,17 34,22" fill="#f59e0b"/>
-      <ellipse cx="44" cy="38" rx="14" ry="22" fill="rgba(196,181,253,0.55)" transform="rotate(20,44,38)"/>
-      <ellipse cx="46" cy="52" rx="10" ry="14" fill="rgba(249,168,212,0.5)" transform="rotate(30,46,52)"/>
-      <line x1="22" y1="68" x2="20" y2="80" stroke="#fde8d8" stroke-width="4" stroke-linecap="round"/>
-      <line x1="32" y1="68" x2="34" y2="80" stroke="#fde8d8" stroke-width="4" stroke-linecap="round"/>
-      <line x1="36" y1="52" x2="48" y2="38" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="48" cy="37" r="5" fill="#a855f7" opacity=".9"/>
-      <text x="44" y="30" font-size="10" fill="#fde68a">✦</text>
-    </svg>
-  </div>
-
-  <!-- Mini princesa corriendo por la parte de arriba -->
-  <div class="mini-princess">
-    <svg viewBox="0 0 50 75" xmlns="http://www.w3.org/2000/svg">
-      <!-- corona -->
-      <polygon points="25,3 28,10 34,8 32,16 18,16 16,8 22,10" fill="#f59e0b"/>
-      <circle cx="25" cy="4" r="2" fill="#ec4899"/>
-      <!-- cabeza -->
-      <circle cx="25" cy="22" r="9" fill="#fde8d8"/>
-      <!-- pelo -->
-      <path d="M16 19 Q18 10 25 11 Q32 10 34 19 Q30 14 25 16 Q20 14 16 19Z" fill="#7c3aed"/>
-      <path d="M16 21 Q13 30 15 38" stroke="#7c3aed" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M34 21 Q37 30 35 38" stroke="#7c3aed" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <!-- ojos -->
-      <circle cx="22" cy="22" r="1.8" fill="#581c87"/><circle cx="28" cy="22" r="1.8" fill="#581c87"/>
-      <!-- boca -->
-      <path d="M22 27 Q25 30 28 27" stroke="#db2777" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-      <!-- vestido -->
-      <path d="M19 30 Q14 42 12 58 L38 58 Q36 42 31 30 Q28 34 25 34 Q22 34 19 30Z" fill="url(#mpg)"/>
-      <!-- mangas -->
-      <path d="M19 31 Q12 36 11 44" stroke="#fde8d8" stroke-width="5" fill="none" stroke-linecap="round"/>
-      <path d="M31 31 Q38 36 39 44" stroke="#fde8d8" stroke-width="5" fill="none" stroke-linecap="round"/>
-      <!-- zapatos -->
-      <ellipse cx="18" cy="60" rx="5" ry="3" fill="#db2777"/>
-      <ellipse cx="32" cy="60" rx="5" ry="3" fill="#db2777"/>
-      <defs>
-        <linearGradient id="mpg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#f472b6"/>
-          <stop offset="100%" stop-color="#7c3aed"/>
-        </linearGradient>
-      </defs>
-    </svg>
-  </div>
-
-  <!-- Mariposa 1 (esquina sup izq) -->
-  <div class="butterfly" style="left:3%;top:5%;--dur:6s;--delay:0s;">
-    <svg viewBox="0 0 44 38" xmlns="http://www.w3.org/2000/svg">
-      <g class="wing" style="transform-origin:22px 19px">
-        <ellipse cx="11" cy="14" rx="12" ry="10" fill="rgba(244,114,182,0.75)" transform="rotate(-20,11,14)"/>
-        <ellipse cx="10" cy="26" rx="9" ry="7" fill="rgba(167,139,250,0.7)" transform="rotate(-25,10,26)"/>
-      </g>
-      <g style="transform:scaleX(-1);transform-origin:22px 19px" class="wing">
-        <ellipse cx="11" cy="14" rx="12" ry="10" fill="rgba(244,114,182,0.75)" transform="rotate(-20,11,14)"/>
-        <ellipse cx="10" cy="26" rx="9" ry="7" fill="rgba(167,139,250,0.7)" transform="rotate(-25,10,26)"/>
-      </g>
-      <ellipse cx="22" cy="19" rx="3" ry="7" fill="#7c3aed"/>
-      <circle cx="22" cy="13" r="2.5" fill="#581c87"/>
-      <line x1="20" y1="11" x2="17" y2="7" stroke="#7c3aed" stroke-width="1"/>
-      <line x1="24" y1="11" x2="27" y2="7" stroke="#7c3aed" stroke-width="1"/>
-    </svg>
-  </div>
-
-  <!-- Mariposa 2 (esquina sup der) -->
-  <div class="butterfly" style="right:4%;top:8%;--dur:8s;--delay:2s;">
-    <svg viewBox="0 0 44 38" xmlns="http://www.w3.org/2000/svg">
-      <g class="wing" style="transform-origin:22px 19px">
-        <ellipse cx="11" cy="14" rx="12" ry="10" fill="rgba(196,181,253,0.75)" transform="rotate(-20,11,14)"/>
-        <ellipse cx="10" cy="26" rx="9" ry="7" fill="rgba(252,211,77,0.7)" transform="rotate(-25,10,26)"/>
-      </g>
-      <g style="transform:scaleX(-1);transform-origin:22px 19px" class="wing">
-        <ellipse cx="11" cy="14" rx="12" ry="10" fill="rgba(196,181,253,0.75)" transform="rotate(-20,11,14)"/>
-        <ellipse cx="10" cy="26" rx="9" ry="7" fill="rgba(252,211,77,0.7)" transform="rotate(-25,10,26)"/>
-      </g>
-      <ellipse cx="22" cy="19" rx="3" ry="7" fill="#ec4899"/>
-      <circle cx="22" cy="13" r="2.5" fill="#db2777"/>
-      <line x1="20" y1="11" x2="17" y2="7" stroke="#ec4899" stroke-width="1"/>
-      <line x1="24" y1="11" x2="27" y2="7" stroke="#ec4899" stroke-width="1"/>
-    </svg>
-  </div>
-
-  <!-- Mariposa 3 (lado der abajo) -->
-  <div class="butterfly" style="right:2%;bottom:20%;--dur:9s;--delay:4s;">
-    <svg viewBox="0 0 44 38" xmlns="http://www.w3.org/2000/svg">
-      <g class="wing" style="transform-origin:22px 19px">
-        <ellipse cx="11" cy="14" rx="12" ry="10" fill="rgba(52,211,153,0.7)" transform="rotate(-20,11,14)"/>
-        <ellipse cx="10" cy="26" rx="9" ry="7" fill="rgba(244,114,182,0.65)" transform="rotate(-25,10,26)"/>
-      </g>
-      <g style="transform:scaleX(-1);transform-origin:22px 19px" class="wing">
-        <ellipse cx="11" cy="14" rx="12" ry="10" fill="rgba(52,211,153,0.7)" transform="rotate(-20,11,14)"/>
-        <ellipse cx="10" cy="26" rx="9" ry="7" fill="rgba(244,114,182,0.65)" transform="rotate(-25,10,26)"/>
-      </g>
-      <ellipse cx="22" cy="19" rx="3" ry="7" fill="#a855f7"/>
-      <circle cx="22" cy="13" r="2.5" fill="#7c3aed"/>
-      <line x1="20" y1="11" x2="17" y2="7" stroke="#a855f7" stroke-width="1"/>
-      <line x1="24" y1="11" x2="27" y2="7" stroke="#a855f7" stroke-width="1"/>
-    </svg>
-  </div>
-
-  <!-- Estrellitas en esquinas -->
-  <div class="corner-deco tl" style="--tw:2.2s;--twd:0s;">👑</div>
-  <div class="corner-deco tr" style="--tw:1.8s;--twd:.5s;">🌟</div>
-  <div class="corner-deco bl" style="--tw:2.5s;--twd:1s;">🌸</div>
-  <div class="corner-deco br" style="--tw:2s;--twd:.3s;">💖</div>
-
-</div><!-- /side-characters -->
-
-<!-- ════ PANTALLA 1: NOMBRE ════ -->
+<!-- ══ PANTALLA 1: NOMBRE ══ -->
 <section id="screen-name">
   <div class="crown-icon">👑</div>
   <h1>¡Tienes una<br>invitación especial!</h1>
-  <p>✨ Escribe tu nombre para abrir tu invitación mágica ✨</p>
+  <p class="intro">✨ Escribe tu nombre para abrir tu invitación mágica ✨</p>
   <div class="input-wrap">
     <input type="text" id="guest-input" placeholder="Tu nombre aquí..." maxlength="30" autocomplete="off"/>
     <button class="btn-magic" onclick="openEnvelope()">🌟 Ver mi invitación 🌟</button>
   </div>
 </section>
 
-<!-- ════ SOBRE ANIMADO ════ -->
+<!-- ══ SOBRE ANIMADO ══ -->
 <div id="env-overlay">
   <div class="env-scene" onclick="openInvite()">
     <div class="env-wrap">
-      <div class="env-body">
-        <div class="env-v-left"></div>
-        <div class="env-v-right"></div>
-      </div>
+      <div class="env-body"><div class="env-vl"></div><div class="env-vr"></div></div>
       <div class="env-flap" id="env-flap"></div>
       <div class="env-letter" id="env-letter">
         <div class="lc">👑</div>
@@ -473,17 +186,17 @@
   <p class="env-hint">✨ Toca el sobre para abrirlo ✨</p>
 </div>
 
-<!-- ════ PANTALLA 2: INVITACIÓN ════ -->
+<!-- ══ PANTALLA 2: INVITACIÓN ══ -->
 <section id="screen-invite">
 
-  <div class="invite-header me" id="hdr">
+  <div class="invite-header" id="hdr">
     <div class="sparkles">✨💖✨</div>
     <p class="ty">¡Hola, querid@</p>
     <p class="tng" id="display-name">Invitad@</p>
     <p class="sub">estás invitad@ a celebrar conmigo 🎀</p>
   </div>
 
-  <div class="invite-card su1" id="card">
+  <div class="invite-card" id="card">
     <div class="princess-img-wrap">
       <svg class="princess-svg" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
         <polygon points="100,8 115,30 140,22 132,48 68,48 60,22 85,30" fill="#f59e0b" stroke="#d97706" stroke-width="1.5"/>
@@ -505,26 +218,19 @@
         <ellipse cx="83" cy="81" rx="7" ry="4" fill="rgba(252,165,165,0.5)"/>
         <ellipse cx="117" cy="81" rx="7" ry="4" fill="rgba(252,165,165,0.5)"/>
         <path d="M93 87 Q100 93 107 87" stroke="#db2777" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <path d="M98 81 Q100 84 102 81" stroke="#f9a8d4" stroke-width="1.5" fill="none"/>
         <rect x="94" y="103" width="12" height="14" rx="4" fill="#fde8d8"/>
         <path d="M75 115 Q65 140 60 175 L140 175 Q135 140 125 115 Q112 122 100 122 Q88 122 75 115Z" fill="url(#dg)" stroke="#db2777" stroke-width="1.5"/>
         <path d="M80 110 Q100 122 120 110 Q115 105 100 103 Q85 105 80 110Z" fill="#db2777"/>
         <path d="M62 155 Q100 165 138 155 Q100 170 62 155Z" fill="rgba(255,255,255,0.4)"/>
-        <path d="M60 168 Q100 180 140 168 Q100 183 60 168Z" fill="rgba(255,255,255,0.3)"/>
         <path d="M80 115 Q65 130 62 148" stroke="#fde8d8" stroke-width="9" fill="none" stroke-linecap="round"/>
         <path d="M120 115 Q135 130 138 148" stroke="#fde8d8" stroke-width="9" fill="none" stroke-linecap="round"/>
         <circle cx="62" cy="150" r="6" fill="#fde8d8"/>
         <line x1="68" y1="148" x2="78" y2="130" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
         <polygon points="78,128 82,122 86,128 80,132" fill="#f59e0b"/>
         <circle cx="82" cy="122" r="4" fill="#ec4899"/>
-        <text x="82" y="118" font-size="8" fill="#f59e0b">✦</text>
-        <text x="75" y="112" font-size="6" fill="#a855f7">✦</text>
-        <text x="90" y="113" font-size="5" fill="#ec4899">✦</text>
         <ellipse cx="78" cy="178" rx="12" ry="6" fill="#db2777"/>
         <ellipse cx="122" cy="178" rx="12" ry="6" fill="#db2777"/>
         <text x="88" y="148" font-size="10" fill="rgba(255,255,255,0.7)">★</text>
-        <text x="103" y="158" font-size="8" fill="rgba(255,255,255,0.7)">★</text>
-        <text x="93" y="165" font-size="6" fill="rgba(255,255,255,0.7)">★</text>
         <defs>
           <linearGradient id="dg" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stop-color="#f472b6"/>
@@ -540,50 +246,340 @@
       <div class="stars-row">⭐💖⭐💖⭐</div>
       <div class="anna-name">Anna</div>
       <p class="tagline">cumple sus primeros 8 años mágicos</p>
-
       <div class="info-grid">
-        <div class="info-box"><div class="icon">📅</div><div class="label">Fecha</div><div class="value">Martes 25 de Marzo, 2026</div></div>
+        <div class="info-box"><div class="icon">📅</div><div class="label">Fecha</div><div class="value">Miércoles 25 de Marzo, 2026</div></div>
         <div class="info-box"><div class="icon">🕒</div><div class="label">Hora</div><div class="value">¡Te esperamos!</div></div>
-        <div class="info-box" style="grid-column:1/-1"><div class="icon">📍</div><div class="label">Lugar</div><div class="value">Calle Linda S/N — Sullana</div></div>
+        <div class="info-box full-col"><div class="icon">📍</div><div class="label">Lugar</div><div class="value">Calle Linda S/N — Sullana</div></div>
       </div>
-
       <div class="divider">👑 ¡La cuenta regresiva! 👑</div>
       <div class="countdown-section">
         <h3>⏳ FALTAN EXACTAMENTE ⏳</h3>
         <div class="countdown-grid" id="countdown">
-          <div class="cd-box"><span class="num" id="cd-dias">--</span><span class="lbl">Días</span></div>
-          <div class="cd-box"><span class="num" id="cd-horas">--</span><span class="lbl">Horas</span></div>
-          <div class="cd-box"><span class="num" id="cd-min">--</span><span class="lbl">Minutos</span></div>
-          <div class="cd-box"><span class="num" id="cd-seg">--</span><span class="lbl">Segundos</span></div>
+          <div class="cd-box"><span class="cd-num" id="cd-dias">--</span><span class="cd-lbl">Días</span></div>
+          <div class="cd-box"><span class="cd-num" id="cd-horas">--</span><span class="cd-lbl">Horas</span></div>
+          <div class="cd-box"><span class="cd-num" id="cd-min">--</span><span class="cd-lbl">Minutos</span></div>
+          <div class="cd-box"><span class="cd-num" id="cd-seg">--</span><span class="cd-lbl">Segundos</span></div>
         </div>
         <p class="party-msg" id="party-msg">🎉 ¡Es el gran día de Anna! 🎉</p>
       </div>
-
       <div class="divider">💌 Confirma tu asistencia 💌</div>
-      <p style="color:#6b21a8;font-size:.9rem;margin-bottom:1rem;">¡No faltes! Confirma tu asistencia por WhatsApp 🎀</p>
+      <p class="wa-text">¡No faltes! Confirma tu asistencia por WhatsApp 🎀</p>
       <a id="wa-link" href="#" target="_blank" class="wa-btn">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-        </svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         ¡Confirmar asistencia!
       </a>
       <div class="stars-row" style="margin-top:1.4rem;">💖✨💜✨💖</div>
     </div>
   </div>
 
-  <div class="invite-footer su4" id="ftr">
-    Con todo el amor del mundo 💕 ¡Te esperamos!
-  </div>
+  <div class="invite-footer" id="ftr">Con todo el amor del mundo 💕 ¡Te esperamos!</div>
 </section>
 
-<!-- MÚSICA (oculta, reproduce automáticamente) -->
-<audio id="bg-music" loop style="display:none">
+<!-- Música de fondo (reemplaza cancion.mp3 con tu archivo) -->
+<audio id="bg-music" loop>
   <source src="assets/music/cancion.mp3" type="audio/mpeg"/>
-  <source src="assets/music/cancion.mp3" type="audio/mpeg"/>
+  <source src="https://cdn.pixabay.com/audio/2023/03/08/audio_22d6a32882.mp3" type="audio/mpeg"/>
 </audio>
 
 <script>
-/* ── PARTICLES ── */
+/* ═══════════════════════════════════════════
+   CANVAS ÚNICO - todo en un solo RAF
+═══════════════════════════════════════════ */
+const C   = document.getElementById('canvas-fx');
+const ctx = C.getContext('2d');
+let W = 0, H = 0, T = 0;
+
+function resize(){ W = C.width = window.innerWidth; H = C.height = window.innerHeight; }
+window.addEventListener('resize', resize); resize();
+
+/* ─── helpers ─── */
+function star(x,y,r,color,a=1){
+  ctx.save(); ctx.globalAlpha=a; ctx.fillStyle=color; ctx.beginPath();
+  for(let i=0;i<5;i++){
+    const a1=i*Math.PI*2/5-Math.PI/2, a2=a1+Math.PI/5;
+    i===0?ctx.moveTo(x+Math.cos(a1)*r,y+Math.sin(a1)*r):ctx.lineTo(x+Math.cos(a1)*r,y+Math.sin(a1)*r);
+    ctx.lineTo(x+Math.cos(a2)*(r*.4),y+Math.sin(a2)*(r*.4));
+  }
+  ctx.closePath(); ctx.fill(); ctx.restore();
+}
+function rr(x,y,w,h,r){ ctx.beginPath(); ctx.roundRect(x,y,w,h,r); }
+
+/* ═══════════════════════════════════════════
+   FUEGOS ARTIFICIALES
+═══════════════════════════════════════════ */
+let fwP=[], fwOn=false;
+class FW{
+  constructor(x,y){
+    this.x=x;this.y=y;
+    const a=Math.random()*Math.PI*2,s=Math.random()*7+2;
+    this.vx=Math.cos(a)*s;this.vy=Math.sin(a)*s;
+    this.al=1;this.dc=Math.random()*.022+.01;this.sz=Math.random()*3.5+1;
+    const h=[320,280,45,200,340,60,160];
+    this.col=`hsl(${h[Math.floor(Math.random()*h.length)]},100%,65%)`;
+  }
+  draw(){
+    this.x+=this.vx;this.y+=this.vy;this.vy+=.08;this.vx*=.99;this.al-=this.dc;
+    if(this.al<=0)return;
+    ctx.save();ctx.globalAlpha=Math.max(0,this.al);ctx.fillStyle=this.col;
+    ctx.beginPath();ctx.arc(this.x,this.y,this.sz,0,Math.PI*2);ctx.fill();ctx.restore();
+  }
+}
+function launchFW(){
+  const x=Math.random()*W*.8+W*.1, y=Math.random()*H*.4+60;
+  for(let i=0;i<100;i++) fwP.push(new FW(x,y));
+}
+function startFW(){
+  fwOn=true; fwP=[]; let n=0; launchFW();
+  const iv=setInterval(()=>{
+    launchFW(); if(Math.random()>.4)launchFW();
+    if(++n>20){clearInterval(iv);setTimeout(()=>{fwOn=false;fwP=[];},2500);}
+  },380);
+}
+
+/* ═══════════════════════════════════════════
+   CONFETI
+═══════════════════════════════════════════ */
+let cfP=[], cfOn=false;
+const CCOLS=['#f472b6','#a855f7','#f59e0b','#34d399','#60a5fa','#fb923c','#e879f9','#fde68a','#f87171'];
+class CF{
+  constructor(init=false){this.reset(init);}
+  reset(init=false){
+    this.x=Math.random()*W; this.y=init?Math.random()*H*-.8:-20;
+    this.w=Math.random()*14+4; this.h=Math.random()*7+3;
+    this.col=CCOLS[Math.floor(Math.random()*CCOLS.length)];
+    this.sh=Math.floor(Math.random()*3);
+    this.vy=Math.random()*3+1.5; this.vx=(Math.random()-.5)*2.2;
+    this.rot=Math.random()*Math.PI*2; this.rv=(Math.random()-.5)*.18;
+  }
+  draw(){
+    this.x+=this.vx;this.y+=this.vy;this.rot+=this.rv;
+    if(this.y>H+20)this.reset();
+    ctx.save();ctx.globalAlpha=.9;ctx.translate(this.x,this.y);ctx.rotate(this.rot);ctx.fillStyle=this.col;
+    if(this.sh===0)ctx.fillRect(-this.w/2,-this.h/2,this.w,this.h);
+    else if(this.sh===1){ctx.beginPath();ctx.arc(0,0,this.w/2,0,Math.PI*2);ctx.fill();}
+    else{ctx.beginPath();for(let i=0;i<5;i++){const a=i*Math.PI*2/5-Math.PI/2,r=this.w/2;i===0?ctx.moveTo(Math.cos(a)*r,Math.sin(a)*r):ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r);}ctx.closePath();ctx.fill();}
+    ctx.restore();
+  }
+}
+function startCF(){
+  cfOn=true; cfP=Array.from({length:180},(_,i)=>new CF(i<60));
+  setTimeout(()=>{cfOn=false;cfP=[];},8000);
+}
+
+/* ═══════════════════════════════════════════
+   UNICORNIO
+═══════════════════════════════════════════ */
+const UNI={x:-120,y:0,dir:1,spd:1.8,lp:0};
+function initUni(){UNI.y=H*.82;}
+function drawUni(){
+  UNI.x+=UNI.spd*UNI.dir; UNI.lp+=.18;
+  if(UNI.dir===1&&UNI.x>W+130)UNI.dir=-1;
+  if(UNI.dir===-1&&UNI.x<-130)UNI.dir=1;
+  const x=UNI.x, y=UNI.y+Math.sin(UNI.lp)*3;
+  const fl=Math.sin(UNI.lp)*12, bl=Math.sin(UNI.lp+Math.PI)*12;
+  ctx.save(); ctx.translate(x,y); if(UNI.dir===-1)ctx.scale(-1,1);
+
+  // sombra
+  ctx.beginPath();ctx.ellipse(0,28,34,5,0,0,Math.PI*2);ctx.fillStyle='rgba(0,0,0,0.07)';ctx.fill();
+  // cuerpo
+  ctx.beginPath();ctx.ellipse(0,0,40,22,0,0,Math.PI*2);ctx.fillStyle='#f9a8d4';ctx.fill();ctx.strokeStyle='#f472b6';ctx.lineWidth=1.5;ctx.stroke();
+  // cuello
+  ctx.beginPath();ctx.moveTo(-18,-10);ctx.quadraticCurveTo(-26,-32,-14,-44);ctx.quadraticCurveTo(-8,-50,0,-46);ctx.quadraticCurveTo(6,-42,-10,-30);ctx.lineTo(-12,-12);ctx.closePath();ctx.fillStyle='#f9a8d4';ctx.fill();
+  // cabeza
+  ctx.beginPath();ctx.ellipse(-10,-50,16,12,-.3,0,Math.PI*2);ctx.fillStyle='#fce7f3';ctx.fill();
+  // cuerno
+  ctx.beginPath();ctx.moveTo(-18,-60);ctx.lineTo(-10,-80);ctx.lineTo(-2,-60);ctx.closePath();ctx.fillStyle='#f59e0b';ctx.fill();
+  ctx.beginPath();ctx.moveTo(-15,-62);ctx.lineTo(-10,-76);ctx.strokeStyle='#fde68a';ctx.lineWidth=1.5;ctx.stroke();
+  // oreja
+  ctx.beginPath();ctx.moveTo(0,-58);ctx.lineTo(5,-67);ctx.lineTo(10,-58);ctx.closePath();ctx.fillStyle='#f9a8d4';ctx.fill();
+  // ojo
+  ctx.beginPath();ctx.arc(-16,-50,3.5,0,Math.PI*2);ctx.fillStyle='#7c3aed';ctx.fill();
+  ctx.beginPath();ctx.arc(-14.5,-51.5,1.2,0,Math.PI*2);ctx.fillStyle='white';ctx.fill();
+  // melena
+  ['#c084fc','#f472b6','#fde68a','#a78bfa'].forEach((c,i)=>{
+    ctx.beginPath();ctx.moveTo(2-i*3,-60);ctx.quadraticCurveTo(-5-i*4,-40+i*3,-14-i*2,-20+i*5);
+    ctx.strokeStyle=c;ctx.lineWidth=5-i;ctx.lineCap='round';ctx.stroke();
+  });
+  // patas
+  [{ox:-20,ph:fl},{ox:-8,ph:bl},{ox:8,ph:fl},{ox:20,ph:bl}].forEach(l=>{
+    ctx.save();ctx.translate(l.ox,16);ctx.rotate(l.ph*Math.PI/180);
+    rr(-4,0,8,22,4);ctx.fillStyle='#f9a8d4';ctx.fill();ctx.strokeStyle='#f472b6';ctx.lineWidth=1;ctx.stroke();
+    ctx.beginPath();ctx.ellipse(0,23,5,3,0,0,Math.PI*2);ctx.fillStyle='#7c3aed';ctx.fill();
+    ctx.restore();
+  });
+  // cola
+  ['#c084fc','#f472b6','#fde68a'].forEach((c,i)=>{
+    ctx.beginPath();ctx.moveTo(36,-8+i*4);ctx.quadraticCurveTo(55+Math.sin(T*.04+i)*8,10+i*6,50+i*3,30+i*5);
+    ctx.strokeStyle=c;ctx.lineWidth=6-i*1.5;ctx.lineCap='round';ctx.stroke();
+  });
+  if(Math.sin(T*.1)>.5){star(55,-30,5,'#f59e0b',.9);star(62,-20,4,'#f472b6',.7);}
+  ctx.restore();
+}
+
+/* ═══════════════════════════════════════════
+   HADAS
+═══════════════════════════════════════════ */
+function drawFairy(side,bodyCol,wandCol,hairCol,phOffset){
+  const phase=T*.022+phOffset;
+  const bx=side==='left'?40:W-40;
+  const x=bx+Math.sin(phase)*22;
+  const y=H*.4+Math.sin(phase*.7)*40;
+  const flip=side==='right'?-1:1;
+  const ws=Math.abs(Math.cos(T*.18+phOffset));
+  const glow=(Math.sin(T*.08+phOffset)+1)/2;
+
+  ctx.save();ctx.translate(x,y);ctx.scale(flip,1);
+
+  // alas x2
+  [1,-1].forEach(f=>{
+    ctx.save();ctx.scale(f*ws,1);
+    ctx.beginPath();ctx.ellipse(-22,-8,22,32,-.4,0,Math.PI*2);ctx.fillStyle=`rgba(196,181,253,${.5+ws*.3})`;ctx.fill();ctx.strokeStyle='rgba(167,139,250,0.35)';ctx.lineWidth=1;ctx.stroke();
+    ctx.beginPath();ctx.ellipse(-18,14,14,20,-.5,0,Math.PI*2);ctx.fillStyle=`rgba(249,168,212,${.45+ws*.25})`;ctx.fill();
+    ctx.restore();
+  });
+  // cuerpo
+  rr(-10,-5,20,35,[8,8,12,12]);ctx.fillStyle=bodyCol;ctx.fill();
+  // cabeza
+  ctx.beginPath();ctx.arc(0,-22,14,0,Math.PI*2);ctx.fillStyle='#fde8d8';ctx.fill();
+  // pelo
+  ctx.beginPath();ctx.arc(0,-28,14,Math.PI,0);ctx.fillStyle=hairCol;ctx.fill();
+  ctx.beginPath();ctx.moveTo(-13,-24);ctx.quadraticCurveTo(-20,-10,-14,10);ctx.strokeStyle=hairCol;ctx.lineWidth=5;ctx.lineCap='round';ctx.stroke();
+  // corona
+  ctx.beginPath();ctx.moveTo(-10,-36);[[-8,-38],[-4,-44],[0,-38],[4,-44],[8,-38]].forEach(p=>ctx.lineTo(p[0],p[1]));ctx.lineTo(10,-36);ctx.closePath();ctx.fillStyle='#f59e0b';ctx.fill();
+  ctx.beginPath();ctx.arc(0,-38,2.5,0,Math.PI*2);ctx.fillStyle='#ec4899';ctx.fill();
+  // ojos
+  ctx.beginPath();ctx.arc(-5,-22,2.5,0,Math.PI*2);ctx.arc(5,-22,2.5,0,Math.PI*2);ctx.fillStyle='#7c3aed';ctx.fill();
+  ctx.beginPath();ctx.arc(-4,-23,1,0,Math.PI*2);ctx.arc(6,-23,1,0,Math.PI*2);ctx.fillStyle='white';ctx.fill();
+  // sonrisa
+  ctx.beginPath();ctx.arc(0,-18,5,.2,Math.PI-.2);ctx.strokeStyle='#db2777';ctx.lineWidth=1.5;ctx.stroke();
+  // piernas
+  ctx.beginPath();ctx.moveTo(-5,30);ctx.lineTo(-6,46);ctx.moveTo(5,30);ctx.lineTo(6,46);ctx.strokeStyle='#fde8d8';ctx.lineWidth=5;ctx.lineCap='round';ctx.stroke();
+  ctx.beginPath();ctx.ellipse(-6,47,5,3,0,0,Math.PI*2);ctx.ellipse(6,47,5,3,0,0,Math.PI*2);ctx.fillStyle=bodyCol;ctx.fill();
+  // varita
+  ctx.beginPath();ctx.moveTo(12,5);ctx.lineTo(30,-12);ctx.strokeStyle='#f59e0b';ctx.lineWidth=2;ctx.lineCap='round';ctx.stroke();
+  ctx.save();ctx.translate(32,-14);ctx.shadowColor=wandCol;ctx.shadowBlur=8+glow*16;star(0,0,6+glow*3,wandCol,1);ctx.restore();
+  ctx.restore();
+}
+
+/* ═══════════════════════════════════════════
+   MINI PRINCESA CORRIENDO (arriba)
+═══════════════════════════════════════════ */
+const MP={x:-80,y:0,dir:1,spd:2.2,lp:0};
+function initMP(){MP.y=H*.12+40;}
+function drawMP(){
+  MP.x+=MP.spd*MP.dir; MP.lp+=.22;
+  if(MP.dir===1&&MP.x>W+80)MP.dir=-1;
+  if(MP.dir===-1&&MP.x<-80)MP.dir=1;
+  const x=MP.x, y=MP.y-Math.abs(Math.sin(MP.lp))*3;
+  const arm=Math.sin(MP.lp)*25, leg1=Math.sin(MP.lp)*22, leg2=Math.sin(MP.lp+Math.PI)*22;
+  ctx.save();ctx.translate(x,y);if(MP.dir===-1)ctx.scale(-1,1);
+
+  ctx.beginPath();ctx.ellipse(0,42,18,4,0,0,Math.PI*2);ctx.fillStyle='rgba(0,0,0,0.06)';ctx.fill();
+  // falda
+  ctx.beginPath();ctx.moveTo(-14,4);ctx.quadraticCurveTo(-22,22,-20,40);ctx.lineTo(20,40);ctx.quadraticCurveTo(22,22,14,4);ctx.closePath();
+  const dg=ctx.createLinearGradient(-20,0,20,40);dg.addColorStop(0,'#f472b6');dg.addColorStop(1,'#7c3aed');ctx.fillStyle=dg;ctx.fill();
+  ctx.beginPath();ctx.ellipse(0,32,21,5,0,0,Math.PI);ctx.fillStyle='rgba(255,255,255,0.3)';ctx.fill();
+  // corpino
+  rr(-10,-8,20,16,5);ctx.fillStyle='#db2777';ctx.fill();
+  // cabeza
+  ctx.beginPath();ctx.arc(0,-20,12,0,Math.PI*2);ctx.fillStyle='#fde8d8';ctx.fill();
+  // pelo
+  ctx.beginPath();ctx.arc(0,-26,12,Math.PI,0);ctx.fillStyle='#7c3aed';ctx.fill();
+  ctx.beginPath();ctx.moveTo(-11,-22);ctx.quadraticCurveTo(-16,-10,-12,2);ctx.strokeStyle='#7c3aed';ctx.lineWidth=4;ctx.lineCap='round';ctx.stroke();
+  // corona
+  ctx.beginPath();ctx.moveTo(-8,-30);[[-6,-32],[-3,-38],[0,-32],[3,-38],[6,-32]].forEach(p=>ctx.lineTo(p[0],p[1]));ctx.lineTo(8,-30);ctx.closePath();ctx.fillStyle='#f59e0b';ctx.fill();
+  ctx.beginPath();ctx.arc(0,-32,2,0,Math.PI*2);ctx.fillStyle='#ec4899';ctx.fill();
+  // ojos
+  ctx.beginPath();ctx.arc(-4,-20,2,0,Math.PI*2);ctx.arc(4,-20,2,0,Math.PI*2);ctx.fillStyle='#581c87';ctx.fill();
+  // brazos
+  [[-10,-30+arm],[10,30-arm]].forEach(([ox,angle],i)=>{
+    ctx.save();ctx.translate(i===0?-10:10,-4);ctx.rotate((i===0?-30+arm:30-arm)*Math.PI/180);
+    rr(-3,0,6,14,3);ctx.fillStyle='#fde8d8';ctx.fill();ctx.restore();
+  });
+  // piernas
+  [[-6,leg1],[6,leg2]].forEach(([ox,ang])=>{
+    ctx.save();ctx.translate(ox,38);ctx.rotate(ang*Math.PI/180);
+    rr(-3,0,6,16,3);ctx.fillStyle='#fde8d8';ctx.fill();
+    ctx.beginPath();ctx.ellipse(0,17,5,3,0,0,Math.PI*2);ctx.fillStyle='#db2777';ctx.fill();
+    ctx.restore();
+  });
+  ctx.restore();
+}
+
+/* ═══════════════════════════════════════════
+   MARIPOSAS
+═══════════════════════════════════════════ */
+let bflies=[];
+function initBflies(){
+  bflies=[
+    {ox:W*.05,oy:H*.1, ph:0,    cols:['rgba(244,114,182,.78)','rgba(167,139,250,.72)','#7c3aed']},
+    {ox:W*.93,oy:H*.13,ph:2.1,  cols:['rgba(196,181,253,.78)','rgba(252,211,77,.72)', '#ec4899']},
+    {ox:W*.04,oy:H*.73,ph:4.2,  cols:['rgba(52,211,153,.72)', 'rgba(244,114,182,.68)','#a855f7']},
+    {ox:W*.95,oy:H*.71,ph:1.05, cols:['rgba(251,146,60,.72)', 'rgba(196,181,253,.72)','#db2777']},
+  ];
+}
+function drawBfly(b){
+  b.ph+=.016;
+  const x=b.ox+Math.sin(b.ph)*38, y=b.oy+Math.sin(b.ph*.65)*30;
+  const ws=Math.abs(Math.cos(T*.25+b.ph));
+  ctx.save();ctx.translate(x,y);ctx.rotate(Math.sin(b.ph)*.15);
+  [1,-1].forEach(f=>{
+    ctx.save();ctx.scale(f*ws,1);
+    ctx.beginPath();ctx.ellipse(-13,-6,17,12,-.4,0,Math.PI*2);ctx.fillStyle=b.cols[0];ctx.fill();
+    ctx.beginPath();ctx.ellipse(-11,8,12,9,-.5,0,Math.PI*2);ctx.fillStyle=b.cols[1];ctx.fill();
+    ctx.restore();
+  });
+  ctx.beginPath();ctx.ellipse(0,1,3,10,0,0,Math.PI*2);ctx.fillStyle=b.cols[2];ctx.fill();
+  ctx.beginPath();ctx.arc(0,-9,3.5,0,Math.PI*2);ctx.fillStyle=b.cols[2];ctx.fill();
+  ctx.beginPath();ctx.moveTo(-1,-11);ctx.lineTo(-7,-20);ctx.moveTo(1,-11);ctx.lineTo(7,-20);ctx.strokeStyle=b.cols[2];ctx.lineWidth=1;ctx.stroke();
+  ctx.beginPath();ctx.arc(-7,-20,2.5,0,Math.PI*2);ctx.arc(7,-20,2.5,0,Math.PI*2);ctx.fillStyle=b.cols[0];ctx.fill();
+  ctx.restore();
+}
+
+/* ═══════════════════════════════════════════
+   ESQUINAS DECORATIVAS
+═══════════════════════════════════════════ */
+const CORNERS=[
+  {e:'👑',gx:0,gy:0,px:28,py:28},
+  {e:'🌟',gx:1,gy:0,px:-28,py:28},
+  {e:'🌸',gx:0,gy:1,px:28,py:-28},
+  {e:'💖',gx:1,gy:1,px:-28,py:-28},
+];
+function drawCorners(){
+  CORNERS.forEach((c,i)=>{
+    const sc=.8+Math.sin(T*.05+i*1.2)*.3;
+    const al=.4+Math.sin(T*.07+i*.9)*.45;
+    const x=c.gx===0?c.px:W+c.px, y=c.gy===0?c.py:H+c.py;
+    ctx.save();ctx.globalAlpha=Math.max(0,Math.min(1,al));
+    ctx.font=`${Math.round(30*sc)}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(c.e,x,y);ctx.restore();
+  });
+}
+
+/* ═══════════════════════════════════════════
+   LOOP MAESTRO
+═══════════════════════════════════════════ */
+window.addEventListener('resize',()=>{ initBflies(); initUni(); initMP(); });
+initUni(); initMP(); initBflies();
+
+function loop(){
+  ctx.clearRect(0,0,W,H);
+  T++;
+  if(fwOn){ fwP=fwP.filter(p=>p.al>0); fwP.forEach(p=>p.draw()); }
+  if(cfOn) cfP.forEach(p=>p.draw());
+  drawUni();
+  drawFairy('left', '#c084fc','#f472b6','#f59e0b', 0);
+  drawFairy('right','#e879f9','#a855f7','#c084fc', Math.PI);
+  drawMP();
+  bflies.forEach(b=>drawBfly(b));
+  drawCorners();
+  requestAnimationFrame(loop);
+}
+loop();
+
+/* ═══════════════════════════════════════════
+   PARTÍCULAS DOM
+═══════════════════════════════════════════ */
 (function(){
   const c=document.getElementById('particles');
   const E=['✨','💖','⭐','💜','🌸','👑','💫','🦋','🌺','💕'];
@@ -596,85 +592,11 @@
   }
 })();
 
-/* ── CANVAS ── */
-const fwC=document.getElementById('canvas-fw'),fwX=fwC.getContext('2d');
-const cfC=document.getElementById('canvas-cf'),cfX=cfC.getContext('2d');
-function resizeCanvases(){fwC.width=cfC.width=window.innerWidth;fwC.height=cfC.height=window.innerHeight;}
-window.addEventListener('resize',resizeCanvases);resizeCanvases();
-
-/* ── FIREWORKS ── */
-let fwP=[],fwON=false;
-class FWP{
-  constructor(x,y){
-    this.x=x;this.y=y;
-    const a=Math.random()*Math.PI*2,spd=Math.random()*6+2;
-    this.vx=Math.cos(a)*spd;this.vy=Math.sin(a)*spd;
-    this.alpha=1;this.decay=Math.random()*.022+.01;this.sz=Math.random()*3+1;
-    const h=[320,280,45,200,340,60,160];
-    this.color=`hsl(${h[Math.floor(Math.random()*h.length)]},100%,65%)`;
-  }
-  upd(){this.x+=this.vx;this.y+=this.vy;this.vy+=.08;this.vx*=.99;this.alpha-=this.decay;}
-  drw(){fwX.save();fwX.globalAlpha=Math.max(0,this.alpha);fwX.fillStyle=this.color;fwX.beginPath();fwX.arc(this.x,this.y,this.sz,0,Math.PI*2);fwX.fill();fwX.restore();}
-}
-function launch(){
-  const x=Math.random()*fwC.width*.8+fwC.width*.1;
-  const y=Math.random()*fwC.height*.45+60;
-  for(let i=0;i<90;i++) fwP.push(new FWP(x,y));
-}
-function animFW(){
-  if(!fwON)return;
-  fwX.clearRect(0,0,fwC.width,fwC.height);
-  fwP=fwP.filter(p=>p.alpha>0);
-  fwP.forEach(p=>{p.upd();p.drw();});
-  requestAnimationFrame(animFW);
-}
-function startFW(){
-  fwON=true;animFW();
-  let n=0;
-  const iv=setInterval(()=>{
-    launch();if(Math.random()>.4)launch();
-    if(++n>20){clearInterval(iv);setTimeout(()=>{fwON=false;fwX.clearRect(0,0,fwC.width,fwC.height);},2500);}
-  },380);
-}
-
-/* ── CONFETTI ── */
-let cfP=[],cfON=false;
-const CFCOL=['#f472b6','#a855f7','#f59e0b','#34d399','#60a5fa','#fb923c','#e879f9','#fde68a','#f87171'];
-class CFP{
-  constructor(init=false){this.rst(init);}
-  rst(init=false){
-    this.x=Math.random()*cfC.width;
-    this.y=init?Math.random()*cfC.height*-.8:-20;
-    this.w=Math.random()*14+4;this.h=Math.random()*7+3;
-    this.col=CFCOL[Math.floor(Math.random()*CFCOL.length)];
-    this.sh=Math.floor(Math.random()*3);
-    this.vy=Math.random()*3+1.5;this.vx=(Math.random()-.5)*2.2;
-    this.rot=Math.random()*Math.PI*2;this.rv=(Math.random()-.5)*.18;
-  }
-  upd(){this.x+=this.vx;this.y+=this.vy;this.rot+=this.rv;if(this.y>cfC.height+20)this.rst();}
-  drw(){
-    cfX.save();cfX.globalAlpha=.9;cfX.translate(this.x,this.y);cfX.rotate(this.rot);cfX.fillStyle=this.col;
-    if(this.sh===0){cfX.fillRect(-this.w/2,-this.h/2,this.w,this.h);}
-    else if(this.sh===1){cfX.beginPath();cfX.arc(0,0,this.w/2,0,Math.PI*2);cfX.fill();}
-    else{cfX.beginPath();for(let i=0;i<5;i++){const a=i*Math.PI*2/5-Math.PI/2;const r=this.w/2;i===0?cfX.moveTo(Math.cos(a)*r,Math.sin(a)*r):cfX.lineTo(Math.cos(a)*r,Math.sin(a)*r);}cfX.closePath();cfX.fill();}
-    cfX.restore();
-  }
-}
-function animCF(){
-  if(!cfON){cfX.clearRect(0,0,cfC.width,cfC.height);return;}
-  cfX.clearRect(0,0,cfC.width,cfC.height);
-  cfP.forEach(p=>{p.upd();p.drw();});
-  requestAnimationFrame(animCF);
-}
-function startCF(){
-  cfON=true;cfP=Array.from({length:180},(_,i)=>new CFP(i<60));animCF();
-  setTimeout(()=>{cfON=false;},8000);
-}
-
-/* ── ENVELOPE ── */
+/* ═══════════════════════════════════════════
+   SOBRE + INVITACIÓN
+═══════════════════════════════════════════ */
 function openEnvelope(){
-  const v=document.getElementById('guest-input').value.trim();
-  window._gname=v||'Invitad@ especial';
+  window._gname=document.getElementById('guest-input').value.trim()||'Invitad@ especial';
   document.getElementById('screen-name').style.display='none';
   document.getElementById('env-overlay').classList.add('active');
   setTimeout(()=>{
@@ -682,39 +604,39 @@ function openEnvelope(){
     setTimeout(()=>document.getElementById('env-letter').classList.add('rise'),500);
   },700);
 }
-
-/* ── OPEN INVITE ── */
 function openInvite(){
   document.getElementById('env-overlay').classList.remove('active');
   const name=window._gname||'Invitad@ especial';
   document.getElementById('display-name').textContent=name;
-  const msg=encodeURIComponent(`¡Hola! Soy ${name} y confirmo mi asistencia al cumpleaños de Anna 🎀👑`);
-  document.getElementById('wa-link').href=`https://wa.me/51931336424?text=${msg}`;
+  document.getElementById('wa-link').href=`https://wa.me/51931336424?text=${encodeURIComponent('¡Hola! Soy '+name+' y confirmo mi asistencia al cumpleaños de Anna 🎀👑')}`;
   document.getElementById('screen-invite').style.display='block';
+  document.getElementById('hdr').classList.add('anim-pop');
+  document.getElementById('card').classList.add('anim-up1');
+  document.getElementById('ftr').classList.add('anim-up2');
   window.scrollTo({top:0,behavior:'smooth'});
   setTimeout(()=>{
-    startFW();startCF();
-    const audio=document.getElementById('bg-music');
-    audio.volume=.45;
-    audio.play().catch(()=>{});
+    startFW(); startCF();
+    document.getElementById('bg-music').volume=.45;
+    document.getElementById('bg-music').play().catch(()=>{});
     startCountdown();
-  },120);
+  },150);
 }
+document.getElementById('guest-input').addEventListener('keydown',e=>{ if(e.key==='Enter')openEnvelope(); });
 
-document.getElementById('guest-input').addEventListener('keydown',e=>{if(e.key==='Enter')openEnvelope();});
-
-/* ── COUNTDOWN ── */
+/* ═══════════════════════════════════════════
+   CUENTA REGRESIVA
+═══════════════════════════════════════════ */
 function startCountdown(){
   const target=new Date('2026-03-25T00:00:00');
   function tick(){
-    const diff=target-new Date();
-    if(diff<=0){document.getElementById('countdown').style.display='none';document.getElementById('party-msg').style.display='block';return;}
-    document.getElementById('cd-dias').textContent=String(Math.floor(diff/86400000)).padStart(2,'0');
-    document.getElementById('cd-horas').textContent=String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
-    document.getElementById('cd-min').textContent=String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
-    document.getElementById('cd-seg').textContent=String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+    const d=target-new Date();
+    if(d<=0){document.getElementById('countdown').style.display='none';document.getElementById('party-msg').style.display='block';return;}
+    document.getElementById('cd-dias').textContent=String(Math.floor(d/86400000)).padStart(2,'0');
+    document.getElementById('cd-horas').textContent=String(Math.floor((d%86400000)/3600000)).padStart(2,'0');
+    document.getElementById('cd-min').textContent=String(Math.floor((d%3600000)/60000)).padStart(2,'0');
+    document.getElementById('cd-seg').textContent=String(Math.floor((d%60000)/1000)).padStart(2,'0');
   }
-  tick();setInterval(tick,1000);
+  tick(); setInterval(tick,1000);
 }
 </script>
 </body>
