@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>¡Cumpleaños de Anna! 👑</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Lato:wght@300;400;700&family=Great+Vibes&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+
+<!-- CANVAS DE EFECTOS (fuegos, confeti, personajes) -->
+<canvas id="canvas-fx"></canvas>
+
+<!-- PARTÍCULAS FLOTANTES -->
+<div id="particles"></div>
+
+<!-- ══════════════════════════════════════
+     PANTALLA 1 — INGRESO DE NOMBRE
+══════════════════════════════════════ -->
+<section id="screen-name">
+  <div class="crown-icon">👑</div>
+  <h1>¡Tienes una<br>invitación especial!</h1>
+  <p class="intro-text">✨ Escribe tu nombre para abrir tu invitación mágica ✨</p>
+  <div class="input-wrap">
+    <input type="text" id="guest-input" placeholder="Tu nombre aquí..." maxlength="30" autocomplete="off"/>
+    <button class="btn-magic" onclick="openEnvelope()">🌟 Ver mi invitación 🌟</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SOBRE ANIMADO
+══════════════════════════════════════ -->
+<div id="env-overlay">
+  <div class="env-scene" onclick="openInvite()">
+    <div class="env-wrap">
+      <div class="env-body">
+        <div class="env-v-left"></div>
+        <div class="env-v-right"></div>
+      </div>
+      <div class="env-flap" id="env-flap"></div>
+      <div class="env-letter" id="env-letter">
+        <div class="lc">👑</div>
+        <div class="lt">¡Invitación Mágica!</div>
+        <div class="ls">Para ti, con amor de Anna 🎀</div>
+      </div>
+      <div class="wax-seal">💖</div>
+    </div>
+  </div>
+  <p class="env-label">¡Tu invitación está aquí!</p>
+  <p class="env-hint">✨ Toca el sobre para abrirlo ✨</p>
+</div>
+
+<!-- ══════════════════════════════════════
+     PANTALLA 2 — INVITACIÓN
+══════════════════════════════════════ -->
+<section id="screen-invite">
+
+  <header class="invite-header" id="hdr">
+    <div class="sparkles">✨💖✨</div>
+    <p class="ty">¡Hola, querid@</p>
+    <p class="tng" id="display-name">Invitad@</p>
+    <p class="sub">estás invitad@ a celebrar conmigo 🎀</p>
+  </header>
+
+  <article class="invite-card" id="card">
+
+    <!-- Imagen princesa -->
+    <div class="princess-img-wrap">
+      <svg class="princess-svg" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="100,8 115,30 140,22 132,48 68,48 60,22 85,30" fill="#f59e0b" stroke="#d97706" stroke-width="1.5"/>
+        <circle cx="100" cy="10" r="5" fill="#ec4899"/>
+        <circle cx="85" cy="30" r="4" fill="#a855f7"/>
+        <circle cx="115" cy="30" r="4" fill="#a855f7"/>
+        <circle cx="70" cy="24" r="3.5" fill="#ec4899"/>
+        <circle cx="130" cy="24" r="3.5" fill="#ec4899"/>
+        <text x="95" y="42" font-size="8" fill="#fff" font-family="serif">★ ★ ★</text>
+        <ellipse cx="100" cy="75" rx="28" ry="30" fill="#fde8d8"/>
+        <ellipse cx="100" cy="60" rx="30" ry="22" fill="#7c3aed"/>
+        <path d="M72 70 Q60 100 65 125" stroke="#7c3aed" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <path d="M128 70 Q140 100 135 125" stroke="#7c3aed" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <ellipse cx="91" cy="74" rx="4" ry="4.5" fill="#581c87"/>
+        <ellipse cx="109" cy="74" rx="4" ry="4.5" fill="#581c87"/>
+        <circle cx="92.5" cy="72.5" r="1.4" fill="white"/>
+        <circle cx="110.5" cy="72.5" r="1.4" fill="white"/>
+        <line x1="88" y1="70" x2="85" y2="67" stroke="#581c87" stroke-width="1.2"/>
+        <line x1="91" y1="69.5" x2="90" y2="66" stroke="#581c87" stroke-width="1.2"/>
+        <line x1="94" y1="70" x2="95" y2="66.5" stroke="#581c87" stroke-width="1.2"/>
+        <line x1="106" y1="70" x2="105" y2="66.5" stroke="#581c87" stroke-width="1.2"/>
+        <line x1="109" y1="69.5" x2="110" y2="66" stroke="#581c87" stroke-width="1.2"/>
+        <line x1="112" y1="70" x2="115" y2="67" stroke="#581c87" stroke-width="1.2"/>
+        <ellipse cx="83" cy="81" rx="7" ry="4" fill="rgba(252,165,165,0.5)"/>
+        <ellipse cx="117" cy="81" rx="7" ry="4" fill="rgba(252,165,165,0.5)"/>
+        <path d="M93 87 Q100 93 107 87" stroke="#db2777" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M98 81 Q100 84 102 81" stroke="#f9a8d4" stroke-width="1.5" fill="none"/>
+        <rect x="94" y="103" width="12" height="14" rx="4" fill="#fde8d8"/>
+        <path d="M75 115 Q65 140 60 175 L140 175 Q135 140 125 115 Q112 122 100 122 Q88 122 75 115Z" fill="url(#dg)" stroke="#db2777" stroke-width="1.5"/>
+        <path d="M80 110 Q100 122 120 110 Q115 105 100 103 Q85 105 80 110Z" fill="#db2777"/>
+        <path d="M62 155 Q100 165 138 155 Q100 170 62 155Z" fill="rgba(255,255,255,0.4)"/>
+        <path d="M60 168 Q100 180 140 168 Q100 183 60 168Z" fill="rgba(255,255,255,0.3)"/>
+        <path d="M80 115 Q65 130 62 148" stroke="#fde8d8" stroke-width="9" fill="none" stroke-linecap="round"/>
+        <path d="M120 115 Q135 130 138 148" stroke="#fde8d8" stroke-width="9" fill="none" stroke-linecap="round"/>
+        <circle cx="62" cy="150" r="6" fill="#fde8d8"/>
+        <line x1="68" y1="148" x2="78" y2="130" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+        <polygon points="78,128 82,122 86,128 80,132" fill="#f59e0b"/>
+        <circle cx="82" cy="122" r="4" fill="#ec4899"/>
+        <ellipse cx="78" cy="178" rx="12" ry="6" fill="#db2777"/>
+        <ellipse cx="122" cy="178" rx="12" ry="6" fill="#db2777"/>
+        <text x="88" y="148" font-size="10" fill="rgba(255,255,255,0.7)">★</text>
+        <text x="103" y="158" font-size="8" fill="rgba(255,255,255,0.7)">★</text>
+        <defs>
+          <linearGradient id="dg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#f472b6"/>
+            <stop offset="50%" stop-color="#c026d3"/>
+            <stop offset="100%" stop-color="#7c3aed"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="age-badge"><span class="num">8</span><span class="years">años</span></div>
+    </div>
+
+    <!-- Contenido de la invitación -->
+    <div class="card-body">
+      <div class="stars-row">⭐💖⭐💖⭐</div>
+      <h2 class="anna-name">Anna</h2>
+      <p class="tagline">cumple sus primeros 8 años mágicos</p>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="icon">📅</div>
+          <div class="label">Fecha</div>
+          <div class="value">Miércoles 25 de Marzo, 2026</div>
+        </div>
+        <div class="info-box">
+          <div class="icon">🕒</div>
+          <div class="label">Hora</div>
+          <div class="value">¡Te esperamos!</div>
+        </div>
+        <div class="info-box full-col">
+          <div class="icon">📍</div>
+          <div class="label">Lugar</div>
+          <div class="value">Calle Linda S/N — Sullana</div>
+        </div>
+      </div>
+
+      <div class="divider">👑 ¡La cuenta regresiva! 👑</div>
+
+      <div class="countdown-section">
+        <h3>⏳ FALTAN EXACTAMENTE ⏳</h3>
+        <div class="countdown-grid" id="countdown">
+          <div class="cd-box"><span class="num" id="cd-dias">--</span><span class="lbl">Días</span></div>
+          <div class="cd-box"><span class="num" id="cd-horas">--</span><span class="lbl">Horas</span></div>
+          <div class="cd-box"><span class="num" id="cd-min">--</span><span class="lbl">Minutos</span></div>
+          <div class="cd-box"><span class="num" id="cd-seg">--</span><span class="lbl">Segundos</span></div>
+        </div>
+        <p class="party-msg" id="party-msg">🎉 ¡Es el gran día de Anna! 🎉</p>
+      </div>
+
+      <div class="divider">💌 Confirma tu asistencia 💌</div>
+
+      <p class="wa-text">¡No faltes! Confirma tu asistencia por WhatsApp 🎀</p>
+      <a id="wa-link" href="#" target="_blank" class="wa-btn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        ¡Confirmar asistencia!
+      </a>
+
+      <div class="stars-row" style="margin-top:1.4rem;">💖✨💜✨💖</div>
+    </div>
+  </article>
+
+  <footer class="invite-footer" id="ftr">
+    Con todo el amor del mundo 💕 ¡Te esperamos!
+  </footer>
+
+</section>
+
+<!-- MÚSICA DE FONDO (reemplaza cancion.mp3 con tu archivo) -->
+<audio id="bg-music" loop>
+  <source src="assets/music/cancion.mp3" type="audio/mpeg"/>
+  <!-- fallback online por si no hay archivo local -->
+  <source src="https://cdn.pixabay.com/audio/2023/03/08/audio_22d6a32882.mp3" type="audio/mpeg"/>
+</audio>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>
