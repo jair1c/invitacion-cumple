@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🍭 ¡Cumpleaños de Dayana! 🍭</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@300;400;700;900&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --pink:#ff6eb4;--pink-dark:#e0006e;--pink-light:#ffe0f3;
+      --mint:#00d4a0;--mint-dark:#00a87e;
+      --yellow:#ffe135;--yellow-dark:#f5c400;
+      --blue:#5bc8f5;--blue-dark:#1a9fd4;
+      --purple:#b86cf5;--purple-dark:#7c2fd4;
+      --orange:#ff8c42;--red:#ff3d6b;
+      --white:#ffffff;--cream:#fff8fd;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Nunito',sans-serif;background:var(--cream);min-height:100vh;overflow-x:hidden;}
+
+    #canvas-fx{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:50;}
+    #particles{position:fixed;inset:0;pointer-events:none;z-index:3;overflow:hidden;}
+    .particle{position:absolute;opacity:0;animation:floatUp linear infinite;}
+    @keyframes floatUp{
+      0%{opacity:0;transform:translateY(0) rotate(0deg) scale(.5);}
+      10%{opacity:1;}90%{opacity:1;}
+      100%{opacity:0;transform:translateY(-100vh) rotate(720deg) scale(1.2);}
+    }
+
+    /* ── PANTALLA NOMBRE ── */
+    #screen-name{
+      position:relative;z-index:10;min-height:100vh;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:2rem;
+      background:linear-gradient(160deg,#fff0fa 0%,#e8f9ff 40%,#fffbe8 70%,#ffe8f5 100%);
+    }
+    #screen-name::before{
+      content:'';position:absolute;inset:0;pointer-events:none;
+      background:
+        radial-gradient(circle,rgba(255,110,180,.13) 2px,transparent 2px),
+        radial-gradient(circle,rgba(91,200,245,.10) 2px,transparent 2px),
+        radial-gradient(circle,rgba(255,225,53,.12) 2px,transparent 2px);
+      background-size:28px 28px,40px 40px,34px 34px;
+      background-position:0 0,14px 14px,7px 20px;
+    }
+    .candy-icon{font-size:5rem;animation:bounce-spin 2s ease-in-out infinite;filter:drop-shadow(0 4px 14px rgba(255,110,180,.55));}
+    @keyframes bounce-spin{
+      0%{transform:translateY(0) rotate(-8deg);}
+      50%{transform:translateY(-16px) rotate(8deg);}
+      100%{transform:translateY(0) rotate(-8deg);}
+    }
+    #screen-name h1{
+      font-family:'Pacifico',cursive;font-size:clamp(1.5rem,5vw,2.8rem);
+      background:linear-gradient(135deg,var(--pink-dark),var(--purple),var(--orange));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      text-align:center;margin:1rem 0 .4rem;line-height:1.45;
+    }
+    #screen-name .intro{color:var(--purple-dark);font-size:1.05rem;margin-bottom:2.2rem;text-align:center;font-weight:700;}
+    .input-wrap{display:flex;flex-direction:column;align-items:center;gap:1rem;width:100%;max-width:400px;}
+    .input-wrap input{
+      width:100%;padding:1rem 1.4rem;border:3px solid var(--pink);border-radius:50px;
+      font-family:'Nunito',sans-serif;font-size:1.1rem;color:var(--purple-dark);
+      background:rgba(255,255,255,.9);outline:none;text-align:center;
+      transition:border-color .3s,box-shadow .3s;
+    }
+    .input-wrap input:focus{border-color:var(--purple);box-shadow:0 0 0 4px rgba(184,108,245,.22);}
+    .input-wrap input::placeholder{color:#f4b0d8;}
+    .btn-magic{
+      padding:.9rem 2.8rem;border:none;border-radius:50px;cursor:pointer;
+      font-family:'Pacifico',cursive;font-size:1rem;
+      color:#fff;background:linear-gradient(135deg,var(--pink-dark),var(--purple));
+      box-shadow:0 6px 24px rgba(184,108,245,.45);transition:transform .2s,box-shadow .2s;
+      position:relative;overflow:hidden;
+    }
+    .btn-magic::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.25),transparent);border-radius:inherit;}
+    .btn-magic:hover{transform:translateY(-3px) scale(1.04);}
+    .btn-magic:active{transform:scale(.97);}
+
+    /* ── SOBRE ── */
+    #env-overlay{
+      display:none;position:fixed;inset:0;z-index:200;
+      align-items:center;justify-content:center;flex-direction:column;
+      background:rgba(10,0,30,.88);backdrop-filter:blur(8px);
+    }
+    #env-overlay.active{display:flex;}
+    .env-scene{perspective:800px;cursor:pointer;}
+    .env-wrap{position:relative;width:320px;height:210px;transform-style:preserve-3d;animation:envFloat 2.5s ease-in-out infinite;}
+    @keyframes envFloat{0%,100%{transform:translateY(0) rotateY(-3deg);}50%{transform:translateY(-12px) rotateY(3deg);}}
+    .env-body{
+      position:absolute;inset:0;
+      background:linear-gradient(160deg,#ffe8f8,#e8f8ff,#fffbe8);
+      border-radius:8px 8px 18px 18px;border:3px solid rgba(255,110,180,.55);
+      box-shadow:0 20px 60px rgba(0,0,0,.5);overflow:hidden;
+    }
+    .env-body::after{
+      content:'';position:absolute;inset:0;
+      background:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,110,180,.09) 10px,rgba(255,110,180,.09) 20px);
+    }
+    .env-vl{position:absolute;bottom:0;left:0;width:50%;height:55%;background:linear-gradient(135deg,rgba(91,200,245,.3),transparent);clip-path:polygon(0 100%,100% 100%,0 0);border-radius:0 0 0 18px;}
+    .env-vr{position:absolute;bottom:0;right:0;width:50%;height:55%;background:linear-gradient(225deg,rgba(184,108,245,.3),transparent);clip-path:polygon(100% 100%,0 100%,100% 0);border-radius:0 0 18px 0;}
+    .env-flap{position:absolute;top:0;left:0;right:0;height:140px;background:linear-gradient(160deg,#ff9de2,#b86cf5);clip-path:polygon(0 0,100% 0,50% 100%);border-radius:8px 8px 0 0;transform-origin:top center;transform:rotateX(0deg);transition:transform .75s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;}
+    .env-flap.open{transform:rotateX(-175deg);}
+    .env-letter{position:absolute;top:24px;left:50%;width:270px;background:white;border-radius:10px;padding:1.1rem;text-align:center;box-shadow:0 6px 20px rgba(0,0,0,.25);transform:translateY(50px) translateX(-50%);opacity:0;z-index:2;transition:transform .85s cubic-bezier(.34,1.56,.64,1) .35s,opacity .5s .35s;}
+    .env-letter.rise{transform:translateY(-120px) translateX(-50%);opacity:1;}
+    .env-letter .lc{font-size:2.2rem;margin-bottom:.3rem;}
+    .env-letter .lt{font-family:'Pacifico',cursive;font-size:.72rem;color:var(--purple-dark);}
+    .env-letter .ls{font-size:.68rem;color:var(--pink-dark);margin-top:.2rem;font-weight:700;}
+    .wax-seal{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);width:56px;height:56px;background:radial-gradient(circle at 35% 35%,var(--pink),var(--pink-dark));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 6px 16px rgba(0,0,0,.45);border:3px solid rgba(255,255,255,.3);z-index:3;}
+    .env-label{color:#fff;font-family:'Pacifico',cursive;font-size:1.3rem;margin-top:2rem;text-align:center;}
+    .env-hint{color:rgba(255,255,255,.65);font-size:.82rem;margin-top:.5rem;text-align:center;animation:pls 1.4s ease-in-out infinite;}
+    @keyframes pls{0%,100%{opacity:.35;}50%{opacity:1;}}
+
+    /* ── INVITACIÓN ── */
+    #screen-invite{
+      display:none;position:relative;z-index:10;min-height:100vh;
+      background:linear-gradient(160deg,#fff0fa 0%,#e8f9ff 40%,#fffbe8 80%,#ffe8f5 100%);
+      padding:2rem 1rem 4rem;
+    }
+    #screen-invite::before{
+      content:'';position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(circle,rgba(255,110,180,.10) 2px,transparent 2px),radial-gradient(circle,rgba(91,200,245,.08) 2px,transparent 2px);
+      background-size:30px 30px,42px 42px;background-position:0 0,15px 15px;
+    }
+    .anim-pop{animation:magicPop .9s cubic-bezier(.34,1.56,.64,1) both;}
+    .anim-up1{animation:slideUp .7s .15s ease both;}
+    .anim-up2{animation:slideUp .7s .4s ease both;}
+    @keyframes magicPop{0%{opacity:0;transform:scale(.3) rotate(-10deg);}60%{transform:scale(1.06) rotate(2deg);}100%{opacity:1;transform:scale(1) rotate(0);}}
+    @keyframes slideUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+
+    .invite-header{text-align:center;padding:2rem 1rem 1rem;}
+    .invite-header .sparkles{font-size:2rem;letter-spacing:.3rem;}
+    .invite-header .ty{font-family:'Dancing Script',cursive;font-size:clamp(1.4rem,4vw,2rem);color:var(--purple);margin:.4rem 0;}
+    .invite-header .tng{font-family:'Pacifico',cursive;font-size:clamp(1.8rem,6vw,3rem);background:linear-gradient(135deg,var(--pink-dark),var(--purple-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.3;}
+    .invite-header .sub{font-family:'Dancing Script',cursive;color:var(--orange);font-size:1.4rem;margin-top:.3rem;}
+
+    .invite-card{max-width:620px;margin:1.5rem auto;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border-radius:32px;border:3px solid rgba(255,110,180,.4);box-shadow:0 20px 60px rgba(184,108,245,.2),0 4px 16px rgba(255,110,180,.25);overflow:hidden;}
+    .candy-img-wrap{
+      position:relative;height:280px;
+      background:linear-gradient(160deg,#ffe8f8,#e8f8ff,#fffbe8);
+      display:flex;align-items:center;justify-content:center;overflow:hidden;
+    }
+    .candy-img-wrap::before{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(circle,rgba(255,110,180,.15) 2px,transparent 2px),radial-gradient(circle,rgba(91,200,245,.12) 2px,transparent 2px),radial-gradient(circle,rgba(255,225,53,.13) 2px,transparent 2px);
+      background-size:22px 22px,32px 32px,28px 28px;background-position:0 0,11px 11px,5px 16px;
+    }
+    .candy-photo{width:220px;height:220px;border-radius:50%;object-fit:cover;filter:drop-shadow(0 8px 24px rgba(255,110,180,.4));animation:floatP 3s ease-in-out infinite;z-index:1;border:5px solid rgba(255,110,180,.4);}
+    @keyframes floatP{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+    .age-badge{position:absolute;top:18px;right:22px;width:64px;height:64px;background:linear-gradient(135deg,var(--yellow),var(--orange));border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(255,140,66,.5);animation:sbadge 6s linear infinite;z-index:2;}
+    @keyframes sbadge{0%,100%{transform:rotate(-8deg) scale(1);}50%{transform:rotate(8deg) scale(1.08);}}
+    .age-badge .num{font-family:'Pacifico',cursive;font-size:1.6rem;color:#fff;line-height:1;}
+    .age-badge .years{font-size:.55rem;color:#fff;font-weight:900;letter-spacing:.05rem;}
+
+    .card-body{padding:1.8rem 2rem 2rem;text-align:center;}
+    .dayana-name{font-family:'Pacifico',cursive;font-size:clamp(2rem,8vw,3.5rem);background:linear-gradient(135deg,var(--pink-dark) 0%,var(--purple-dark) 50%,var(--orange) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.2rem;animation:shimmer 3s ease-in-out infinite;}
+    @keyframes shimmer{0%,100%{filter:brightness(1);}50%{filter:brightness(1.2) drop-shadow(0 0 8px rgba(255,110,180,.5));}}
+    .tagline{font-family:'Dancing Script',cursive;color:var(--purple);font-size:1.3rem;margin-bottom:1.4rem;}
+
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:1.2rem 0;}
+    .full-col{grid-column:1/-1;}
+    @media(max-width:420px){.info-grid{grid-template-columns:1fr;}.full-col{grid-column:1;}}
+    .info-box{background:linear-gradient(135deg,rgba(255,232,248,.75),rgba(232,248,255,.75));border:2px solid rgba(255,110,180,.3);border-radius:16px;padding:.9rem .8rem;transition:transform .2s;}
+    .info-box:hover{transform:scale(1.04);}
+    .info-box .icon{font-size:1.5rem;}
+    .info-box .label{font-size:.7rem;color:var(--purple);font-weight:900;letter-spacing:.08rem;text-transform:uppercase;margin:.2rem 0;}
+    .info-box .value{font-size:.92rem;color:#5a0080;font-weight:700;line-height:1.3;}
+
+    .countdown-section{margin:1.6rem 0 .5rem;}
+    .countdown-section h3{font-family:'Pacifico',cursive;font-size:.85rem;color:var(--purple-dark);letter-spacing:.04rem;margin-bottom:.9rem;}
+    .countdown-grid{display:flex;justify-content:center;gap:.7rem;flex-wrap:wrap;}
+    .cd-box{background:linear-gradient(135deg,var(--pink-dark),var(--purple-dark));border-radius:14px;padding:.7rem .9rem;min-width:64px;text-align:center;box-shadow:0 4px 16px rgba(184,108,245,.38);}
+    .cd-box .cd-num{font-family:'Pacifico',cursive;font-size:1.8rem;color:#fff;line-height:1;display:block;}
+    .cd-box .cd-lbl{font-size:.6rem;color:rgba(255,255,255,.85);letter-spacing:.06rem;text-transform:uppercase;}
+    .party-msg{font-family:'Pacifico',cursive;font-size:1.1rem;background:linear-gradient(135deg,var(--pink-dark),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:none;}
+
+    .divider{display:flex;align-items:center;gap:.6rem;margin:1.4rem 0;color:var(--pink);font-size:1.1rem;}
+    .divider::before,.divider::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--pink),transparent);}
+
+    .wa-text{color:#5a0080;font-size:.9rem;margin-bottom:1rem;font-weight:700;}
+    .wa-btn{display:inline-flex;align-items:center;gap:.6rem;padding:1rem 2.2rem;background:linear-gradient(135deg,#22c55e,#16a34a);border:none;border-radius:50px;cursor:pointer;color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:.9rem;box-shadow:0 6px 24px rgba(34,197,94,.4);text-decoration:none;transition:transform .2s,box-shadow .2s;}
+    .wa-btn:hover{transform:translateY(-3px) scale(1.04);}
+    .stars-row{font-size:1.3rem;letter-spacing:.25rem;margin:.4rem 0;}
+    .invite-footer{text-align:center;padding:1.5rem;color:var(--purple);font-family:'Dancing Script',cursive;font-size:1.4rem;}
+  </style>
+</head>
+<body>
+
+<canvas id="canvas-fx"></canvas>
+<div id="particles"></div>
+
+<!-- ══ PANTALLA 1: NOMBRE ══ -->
+<section id="screen-name">
+  <div class="candy-icon">🍭</div>
+  <h1>¡Tienes una<br>invitación dulce!</h1>
+  <p class="intro">🍬 Escribe tu nombre para abrir tu invitación 🍬</p>
+  <div class="input-wrap">
+    <input type="text" id="guest-input" placeholder="Tu nombre aquí..." maxlength="30" autocomplete="off"/>
+    <button class="btn-magic" onclick="openEnvelope()">🍩 Ver mi invitación 🍩</button>
+  </div>
+</section>
+
+<!-- ══ SOBRE ANIMADO ══ -->
+<div id="env-overlay">
+  <div class="env-scene" onclick="openInvite()">
+    <div class="env-wrap">
+      <div class="env-body"><div class="env-vl"></div><div class="env-vr"></div></div>
+      <div class="env-flap" id="env-flap"></div>
+      <div class="env-letter" id="env-letter">
+        <div class="lc">🍭</div>
+        <div class="lt">¡Invitación Dulce!</div>
+        <div class="ls">Para ti, con amor de Dayana 🍬</div>
+      </div>
+      <div class="wax-seal">🍦</div>
+    </div>
+  </div>
+  <p class="env-label">¡Tu invitación está aquí!</p>
+  <p class="env-hint">🍬 Toca el sobre para abrirlo 🍬</p>
+</div>
+
+<!-- ══ PANTALLA 2: INVITACIÓN ══ -->
+<section id="screen-invite">
+
+  <div class="invite-header" id="hdr">
+    <div class="sparkles">🍭🍬🍰</div>
+    <p class="ty">¡Hola, querido (a)</p>
+    <p class="tng" id="display-name">Invitado (a)</p>
+    <p class="sub">estás invitado (a) a celebrar conmigo 🎂</p>
+  </div>
+
+  <div class="invite-card" id="card">
+    <div class="candy-img-wrap">
+      <img src="assets/img/dayana.jpg" alt="Dayana" class="candy-photo"/>
+      <div class="age-badge"><span class="num">8</span><span class="years">años</span></div>
+    </div>
+
+    <div class="card-body">
+      <div class="stars-row">🍭🍬🍦🍬🍭</div>
+      <div class="dayana-name">Dayana</div>
+      <p class="tagline">cumple sus primeros 8 años más dulces 🍰</p>
+      <div class="info-grid">
+        <div class="info-box"><div class="icon">📅</div><div class="label">Fecha</div><div class="value">Miércoles 25 de Marzo, 2026</div></div>
+        <div class="info-box"><div class="icon">🕒</div><div class="label">Hora</div><div class="value">05:00 PM <p>¡Te esperamos!</p></div></div>
+        <div class="info-box full-col"><div class="icon">📍</div><div class="label">Lugar</div><div class="value">Mz.B Lt.28 - Psje 02 de Mayo - La videnita</div></div>
+      </div>
+      <div class="divider">🍭 ¡La cuenta regresiva! 🍭</div>
+      <div class="countdown-section">
+        <h3>🍬 FALTAN EXACTAMENTE 🍬</h3>
+        <div class="countdown-grid" id="countdown">
+          <div class="cd-box"><span class="cd-num" id="cd-dias">--</span><span class="cd-lbl">Días</span></div>
+          <div class="cd-box"><span class="cd-num" id="cd-horas">--</span><span class="cd-lbl">Horas</span></div>
+          <div class="cd-box"><span class="cd-num" id="cd-min">--</span><span class="cd-lbl">Minutos</span></div>
+          <div class="cd-box"><span class="cd-num" id="cd-seg">--</span><span class="cd-lbl">Segundos</span></div>
+        </div>
+        <p class="party-msg" id="party-msg">🎉 ¡Es el gran día de Dayana! 🎉</p>
+      </div>
+      <div class="divider">💌 Confirma tu asistencia 💌</div>
+      <p class="wa-text">¡No faltes! Confirma tu asistencia por WhatsApp 🍭</p>
+      <a id="wa-link" href="#" target="_blank" class="wa-btn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        ¡Confirmar asistencia!
+      </a>
+      <div class="stars-row" style="margin-top:1.4rem;">🍰🍭🍩🍭🍰</div>
+    </div>
+  </div>
+
+  <div class="invite-footer" id="ftr">Con todo el amor del mundo 💕 ¡Bienvenido a mi mundo de caramelo!</div>
+</section>
+
+<audio id="bg-music" loop>
+  <source src="assets/music/cancion.mp3" type="audio/mpeg"/>
+</audio>
+
+<script>
+const C=document.getElementById('canvas-fx');
+const ctx=C.getContext('2d');
+let W=0,H=0,T=0;
+function resize(){W=C.width=window.innerWidth;H=C.height=window.innerHeight;}
+window.addEventListener('resize',resize);resize();
+
+function rr(x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r);}
+
+/* ── FUEGOS ARTIFICIALES (colores candy) ── */
+let fwP=[],fwOn=false;
+class FW{
+  constructor(x,y){
+    this.x=x;this.y=y;
+    const a=Math.random()*Math.PI*2,s=Math.random()*7+2;
+    this.vx=Math.cos(a)*s;this.vy=Math.sin(a)*s;
+    this.al=1;this.dc=Math.random()*.022+.01;this.sz=Math.random()*3.5+1;
+    const cols=['#ff6eb4','#5bc8f5','#ffe135','#b86cf5','#ff8c42','#00d4a0','#ff3d6b'];
+    this.col=cols[Math.floor(Math.random()*cols.length)];
+  }
+  draw(){
+    this.x+=this.vx;this.y+=this.vy;this.vy+=.08;this.vx*=.99;this.al-=this.dc;
+    if(this.al<=0)return;
+    ctx.save();ctx.globalAlpha=Math.max(0,this.al);ctx.fillStyle=this.col;
+    ctx.beginPath();ctx.arc(this.x,this.y,this.sz,0,Math.PI*2);ctx.fill();ctx.restore();
+  }
+}
+function launchFW(){
+  const x=Math.random()*W*.8+W*.1,y=Math.random()*H*.4+60;
+  for(let i=0;i<100;i++)fwP.push(new FW(x,y));
+}
+function startFW(){
+  fwOn=true;fwP=[];let n=0;launchFW();
+  const iv=setInterval(()=>{
+    launchFW();if(Math.random()>.4)launchFW();
+    if(++n>20){clearInterval(iv);setTimeout(()=>{fwOn=false;fwP=[];},2500);}
+  },380);
+}
+
+/* ── CONFETI DE DULCES ── */
+let cfP=[],cfOn=false;
+const CCOLS=['#ff6eb4','#b86cf5','#ffe135','#00d4a0','#5bc8f5','#ff8c42','#ff3d6b','#ffd6f0','#c0f0ff'];
+class CF{
+  constructor(init=false){this.reset(init);}
+  reset(init=false){
+    this.x=Math.random()*W;this.y=init?Math.random()*H*-.8:-20;
+    this.w=Math.random()*14+4;this.h=Math.random()*7+3;
+    this.col=CCOLS[Math.floor(Math.random()*CCOLS.length)];
+    this.sh=Math.floor(Math.random()*4);
+    this.vy=Math.random()*3+1.5;this.vx=(Math.random()-.5)*2.2;
+    this.rot=Math.random()*Math.PI*2;this.rv=(Math.random()-.5)*.18;
+  }
+  draw(){
+    this.x+=this.vx;this.y+=this.vy;this.rot+=this.rv;
+    if(this.y>H+20)this.reset();
+    ctx.save();ctx.globalAlpha=.92;ctx.translate(this.x,this.y);ctx.rotate(this.rot);ctx.fillStyle=this.col;
+    if(this.sh===0)ctx.fillRect(-this.w/2,-this.h/2,this.w,this.h);
+    else if(this.sh===1){ctx.beginPath();ctx.arc(0,0,this.w/2,0,Math.PI*2);ctx.fill();}
+    else if(this.sh===2){
+      ctx.beginPath();
+      for(let i=0;i<5;i++){
+        const a=i*Math.PI*2/5-Math.PI/2,r=this.w/2;
+        i===0?ctx.moveTo(Math.cos(a)*r,Math.sin(a)*r):ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r);
+        const a2=a+Math.PI/5;ctx.lineTo(Math.cos(a2)*(r*.4),Math.sin(a2)*(r*.4));
+      }
+      ctx.closePath();ctx.fill();
+    }else{
+      const s=this.w/2;
+      ctx.beginPath();ctx.moveTo(0,-s);ctx.lineTo(s,0);ctx.lineTo(0,s);ctx.lineTo(-s,0);ctx.closePath();ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+function startCF(){
+  cfOn=true;cfP=Array.from({length:180},(_,i)=>new CF(i<60));
+  setTimeout(()=>{cfOn=false;cfP=[];},8000);
+}
+
+/* ── PIRULETA GIGANTE cruza la pantalla (reemplaza unicornio) ── */
+const LOLLY={x:-110,y:0,dir:1,spd:1.6,rot:0};
+function initLolly(){LOLLY.y=H*.84;}
+
+function drawLollipopShape(x,y,r,angle,col1,col2){
+  ctx.save();ctx.translate(x,y);ctx.rotate(angle);
+  // palo
+  ctx.beginPath();ctx.moveTo(0,r);ctx.lineTo(0,r+48);
+  ctx.strokeStyle='rgba(210,170,110,.9)';ctx.lineWidth=5;ctx.lineCap='round';ctx.stroke();
+  // sombra
+  ctx.beginPath();ctx.arc(3,3,r,0,Math.PI*2);ctx.fillStyle='rgba(0,0,0,0.08)';ctx.fill();
+  // base
+  ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fillStyle=col1;ctx.fill();
+  // espiral alternada
+  for(let i=0;i<6;i++){
+    const a=i*Math.PI/3;
+    ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,r,a,a+Math.PI/3);ctx.lineTo(0,0);
+    ctx.fillStyle=i%2===0?col2:col1;ctx.fill();
+  }
+  // brillo
+  ctx.beginPath();ctx.arc(-r*.28,-r*.28,r*.22,0,Math.PI*2);
+  ctx.fillStyle='rgba(255,255,255,0.45)';ctx.fill();
+  // centro
+  ctx.beginPath();ctx.arc(0,0,r*.18,0,Math.PI*2);ctx.fillStyle='white';ctx.fill();
+  ctx.restore();
+}
+
+function drawLolly(){
+  LOLLY.x+=LOLLY.spd*LOLLY.dir;
+  LOLLY.rot+=.012*LOLLY.dir;
+  if(LOLLY.dir===1&&LOLLY.x>W+110)LOLLY.dir=-1;
+  if(LOLLY.dir===-1&&LOLLY.x<-110)LOLLY.dir=1;
+  const bob=Math.sin(T*.028)*5;
+  drawLollipopShape(LOLLY.x,LOLLY.y+bob,38,LOLLY.rot,'#ff6eb4','#ffffff');
+}
+
+/* ── DONAS FLOTANTES LATERALES (reemplazan hadas) ── */
+function drawDonut(side,glazeCol,phOffset){
+  const phase=T*.022+phOffset;
+  const bx=side==='left'?52:W-52;
+  const x=bx+Math.sin(phase)*18;
+  const y=H*.38+Math.sin(phase*.7)*36;
+  const bob=Math.sin(T*.032+phOffset)*6;
+  const tilt=Math.sin(T*.018+phOffset)*.22;
+
+  ctx.save();ctx.translate(x,y+bob);ctx.rotate(tilt);
+
+  // sombra
+  ctx.beginPath();ctx.ellipse(2,32,20,4,0,0,Math.PI*2);
+  ctx.fillStyle='rgba(0,0,0,0.07)';ctx.fill();
+
+  // masa
+  ctx.beginPath();ctx.arc(0,0,28,0,Math.PI*2);ctx.fillStyle='#f5c17a';ctx.fill();
+
+  // glaseado ondulado
+  ctx.save();
+  ctx.beginPath();ctx.arc(0,0,26,0,Math.PI*2);ctx.clip();
+  ctx.beginPath();ctx.moveTo(-26,0);
+  for(let i=0;i<=20;i++){
+    const a=i/20*Math.PI*2;
+    const rb=20+Math.sin(a*5+T*.04)*4;
+    ctx.lineTo(Math.cos(a)*rb,Math.sin(a)*rb);
+  }
+  ctx.closePath();ctx.fillStyle=glazeCol;ctx.fill();
+  ctx.restore();
+
+  // agujero
+  ctx.beginPath();ctx.arc(0,0,11,0,Math.PI*2);
+  ctx.fillStyle=side==='left'?'#fff0fa':'#e8f8ff';ctx.fill();
+
+  // sprinkles
+  const spAngles=[0.3,1.1,1.9,2.7,3.5,4.3,5.1,5.9];
+  const spCols=['#ff3d6b','#5bc8f5','#ffe135','#00d4a0','#ff6eb4','#b86cf5','#ff8c42','#ffffff'];
+  spAngles.forEach((a,i)=>{
+    const sr=17;
+    const sx=Math.cos(a)*sr,sy=Math.sin(a)*sr;
+    ctx.save();ctx.translate(sx,sy);ctx.rotate(a+1);
+    ctx.beginPath();ctx.roundRect(-4,-1.5,8,3,2);
+    ctx.fillStyle=spCols[i%spCols.length];ctx.fill();
+    ctx.restore();
+  });
+
+  // carita
+  ctx.beginPath();ctx.arc(-6,-2,3,0,Math.PI*2);ctx.arc(6,-2,3,0,Math.PI*2);
+  ctx.fillStyle='#5a0050';ctx.fill();
+  ctx.beginPath();ctx.arc(0,4,5,.2,Math.PI-.2);
+  ctx.strokeStyle='#c0004a';ctx.lineWidth=1.8;ctx.stroke();
+
+  ctx.restore();
+}
+
+/* ── MINI NIÑA CON HELADO (reemplaza mini princesa) ── */
+const MP={x:-80,y:0,dir:1,spd:2.2,lp:0};
+function initMP(){MP.y=H*.12+40;}
+function drawMP(){
+  MP.x+=MP.spd*MP.dir;MP.lp+=.22;
+  if(MP.dir===1&&MP.x>W+80)MP.dir=-1;
+  if(MP.dir===-1&&MP.x<-80)MP.dir=1;
+  const x=MP.x,y=MP.y-Math.abs(Math.sin(MP.lp))*3;
+  const arm=Math.sin(MP.lp)*25,leg1=Math.sin(MP.lp)*22,leg2=Math.sin(MP.lp+Math.PI)*22;
+  ctx.save();ctx.translate(x,y);if(MP.dir===-1)ctx.scale(-1,1);
+
+  // sombra
+  ctx.beginPath();ctx.ellipse(0,42,18,4,0,0,Math.PI*2);ctx.fillStyle='rgba(0,0,0,0.06)';ctx.fill();
+
+  // falda candy stripes
+  ctx.beginPath();ctx.moveTo(-14,4);ctx.quadraticCurveTo(-22,22,-20,40);ctx.lineTo(20,40);ctx.quadraticCurveTo(22,22,14,4);ctx.closePath();
+  const dg=ctx.createLinearGradient(-20,0,20,40);
+  dg.addColorStop(0,'#ff6eb4');dg.addColorStop(.5,'#b86cf5');dg.addColorStop(1,'#5bc8f5');
+  ctx.fillStyle=dg;ctx.fill();
+  // rayas falda
+  ctx.strokeStyle='rgba(255,255,255,0.35)';ctx.lineWidth=2;
+  for(let i=0;i<3;i++){const yy=14+i*8;ctx.beginPath();ctx.moveTo(-18+i*2,yy);ctx.lineTo(18-i*2,yy);ctx.stroke();}
+
+  // corpino
+  rr(-10,-8,20,16,5);ctx.fillStyle='#e0006e';ctx.fill();
+
+  // cabeza
+  ctx.beginPath();ctx.arc(0,-20,12,0,Math.PI*2);ctx.fillStyle='#fde8d8';ctx.fill();
+
+  // pelo
+  ctx.beginPath();ctx.arc(0,-26,12,Math.PI,0);ctx.fillStyle='#b86cf5';ctx.fill();
+  ctx.beginPath();ctx.moveTo(-11,-22);ctx.quadraticCurveTo(-16,-10,-12,2);ctx.strokeStyle='#b86cf5';ctx.lineWidth=4;ctx.lineCap='round';ctx.stroke();
+
+  // lazo (reemplaza corona)
+  ctx.beginPath();ctx.ellipse(-5,-32,6,4,-.5,0,Math.PI*2);ctx.fillStyle='#ff6eb4';ctx.fill();
+  ctx.beginPath();ctx.ellipse(5,-32,6,4,.5,0,Math.PI*2);ctx.fillStyle='#ff6eb4';ctx.fill();
+  ctx.beginPath();ctx.arc(0,-32,3,0,Math.PI*2);ctx.fillStyle='#ff3d6b';ctx.fill();
+
+  // ojos
+  ctx.beginPath();ctx.arc(-4,-20,2,0,Math.PI*2);ctx.arc(4,-20,2,0,Math.PI*2);ctx.fillStyle='#5a0080';ctx.fill();
+  // mejillas
+  ctx.beginPath();ctx.arc(-7,-17,3,0,Math.PI*2);ctx.fillStyle='rgba(255,110,180,.35)';ctx.fill();
+  ctx.beginPath();ctx.arc(7,-17,3,0,Math.PI*2);ctx.fillStyle='rgba(255,110,180,.35)';ctx.fill();
+
+  // brazos
+  [0,1].forEach(i=>{
+    ctx.save();ctx.translate(i===0?-10:10,-4);ctx.rotate((i===0?-30+arm:30-arm)*Math.PI/180);
+    rr(-3,0,6,14,3);ctx.fillStyle='#fde8d8';ctx.fill();ctx.restore();
+  });
+
+  // helado en la mano derecha
+  ctx.save();ctx.translate(10,-4);ctx.rotate((-32-Math.abs(arm*.3))*Math.PI/180);
+  // cono
+  ctx.beginPath();ctx.moveTo(-5,14);ctx.lineTo(5,14);ctx.lineTo(0,26);ctx.closePath();
+  ctx.fillStyle='#f5c17a';ctx.fill();
+  // bola
+  ctx.beginPath();ctx.arc(0,11,7,0,Math.PI*2);ctx.fillStyle='#ff9de2';ctx.fill();
+  ctx.strokeStyle='rgba(255,110,180,.3)';ctx.lineWidth=1;ctx.stroke();
+  // crema
+  ctx.beginPath();ctx.arc(0,5,5,0,Math.PI*2);ctx.fillStyle='white';ctx.fill();
+  ctx.restore();
+
+  // piernas
+  [[-6,leg1],[6,leg2]].forEach(([ox,ang])=>{
+    ctx.save();ctx.translate(ox,38);ctx.rotate(ang*Math.PI/180);
+    rr(-3,0,6,16,3);ctx.fillStyle='#fde8d8';ctx.fill();
+    ctx.beginPath();ctx.ellipse(0,17,5,3,0,0,Math.PI*2);ctx.fillStyle='#ff6eb4';ctx.fill();
+    ctx.restore();
+  });
+
+  ctx.restore();
+}
+
+/* ── ESTRELLAS CANDY en esquinas (reemplazan mariposas) ── */
+let cStars=[];
+function initCStars(){
+  cStars=[
+    {ox:W*.05,oy:H*.10,ph:0,   col:'#ff6eb4',col2:'#ffffff'},
+    {ox:W*.93,oy:H*.13,ph:2.1, col:'#b86cf5',col2:'#ffe135'},
+    {ox:W*.04,oy:H*.73,ph:4.2, col:'#5bc8f5',col2:'#ff6eb4'},
+    {ox:W*.95,oy:H*.71,ph:1.05,col:'#ff8c42',col2:'#ffffff'},
+  ];
+}
+function drawCStar(s){
+  s.ph+=.018;
+  const x=s.ox+Math.sin(s.ph)*28,y=s.oy+Math.sin(s.ph*.6)*20;
+  const sc=.8+Math.sin(T*.04+s.ph)*.22;
+  const al=.42+Math.sin(T*.055+s.ph)*.42;
+  ctx.save();ctx.translate(x,y);ctx.rotate(T*.025+s.ph);ctx.globalAlpha=Math.max(0,Math.min(1,al));
+  const r1=18*sc,r2=8*sc;
+  ctx.beginPath();
+  for(let i=0;i<12;i++){
+    const a=i*Math.PI/6-Math.PI/2,r=i%2===0?r1:r2;
+    i===0?ctx.moveTo(Math.cos(a)*r,Math.sin(a)*r):ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r);
+  }
+  ctx.closePath();ctx.fillStyle=s.col;ctx.fill();
+  ctx.beginPath();ctx.arc(-r1*.22,-r1*.22,r1*.22,0,Math.PI*2);
+  ctx.fillStyle='rgba(255,255,255,0.5)';ctx.fill();
+  ctx.restore();
+}
+
+/* ── ESQUINAS DECORATIVAS (candy) ── */
+const CORNERS=[
+  {e:'🍭',gx:0,gy:0,px:28,py:28},
+  {e:'🍬',gx:1,gy:0,px:-28,py:28},
+  {e:'🍦',gx:0,gy:1,px:28,py:-28},
+  {e:'🍩',gx:1,gy:1,px:-28,py:-28},
+];
+function drawCorners(){
+  CORNERS.forEach((c,i)=>{
+    const sc=.8+Math.sin(T*.05+i*1.2)*.3;
+    const al=.4+Math.sin(T*.07+i*.9)*.45;
+    const x=c.gx===0?c.px:W+c.px,y=c.gy===0?c.py:H+c.py;
+    ctx.save();ctx.globalAlpha=Math.max(0,Math.min(1,al));
+    ctx.font=`${Math.round(30*sc)}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(c.e,x,y);ctx.restore();
+  });
+}
+
+/* ── LOOP ── */
+window.addEventListener('resize',()=>{initLolly();initMP();initCStars();});
+initLolly();initMP();initCStars();
+
+function loop(){
+  ctx.clearRect(0,0,W,H);T++;
+  if(fwOn){fwP=fwP.filter(p=>p.al>0);fwP.forEach(p=>p.draw());}
+  if(cfOn)cfP.forEach(p=>p.draw());
+  drawLolly();
+  drawDonut('left','#ff6eb4',0);
+  drawDonut('right','#5bc8f5',Math.PI);
+  drawMP();
+  cStars.forEach(s=>drawCStar(s));
+  drawCorners();
+  requestAnimationFrame(loop);
+}
+loop();
+
+/* ── PARTÍCULAS DOM (emojis dulces) ── */
+(function(){
+  const c=document.getElementById('particles');
+  const E=['🍭','🍬','🍦','🍩','🍰','🧁','🍫','🎂','🍡','🍮'];
+  for(let i=0;i<42;i++){
+    const el=document.createElement('div');el.classList.add('particle');
+    const s=Math.random()*18+10;
+    el.style.cssText=`left:${Math.random()*100}%;bottom:${Math.random()*-20}%;width:${s}px;height:${s}px;font-size:${s*.85}px;animation-duration:${Math.random()*10+8}s;animation-delay:${Math.random()*10}s;background:transparent;`;
+    el.textContent=E[Math.floor(Math.random()*E.length)];
+    c.appendChild(el);
+  }
+})();
+
+/* ── SOBRE + INVITACIÓN ── */
+function openEnvelope(){
+  window._gname=document.getElementById('guest-input').value.trim()||'Invitad@ especial';
+  document.getElementById('screen-name').style.display='none';
+  document.getElementById('env-overlay').classList.add('active');
+  setTimeout(()=>{
+    document.getElementById('env-flap').classList.add('open');
+    setTimeout(()=>document.getElementById('env-letter').classList.add('rise'),500);
+  },700);
+}
+function openInvite(){
+  document.getElementById('env-overlay').classList.remove('active');
+  const name=window._gname||'Invitad@ especial';
+  document.getElementById('display-name').textContent=name;
+  document.getElementById('wa-link').href=`https://wa.me/51923396272?text=${encodeURIComponent('¡Hola! Soy '+name+' y confirmo mi asistencia al cumpleaños de Dayana 🍭🎂')}`;
+  document.getElementById('screen-invite').style.display='block';
+  document.getElementById('hdr').classList.add('anim-pop');
+  document.getElementById('card').classList.add('anim-up1');
+  document.getElementById('ftr').classList.add('anim-up2');
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>{
+    startFW();startCF();
+    document.getElementById('bg-music').volume=.45;
+    document.getElementById('bg-music').play().catch(()=>{});
+    startCountdown();
+  },150);
+}
+document.getElementById('guest-input').addEventListener('keydown',e=>{if(e.key==='Enter')openEnvelope();});
+
+/* ── CUENTA REGRESIVA ── */
+function startCountdown(){
+  const target=new Date('2026-03-25T17:00:00');
+  function tick(){
+    const d=target-new Date();
+    if(d<=0){document.getElementById('countdown').style.display='none';document.getElementById('party-msg').style.display='block';return;}
+    document.getElementById('cd-dias').textContent=String(Math.floor(d/86400000)).padStart(2,'0');
+    document.getElementById('cd-horas').textContent=String(Math.floor((d%86400000)/3600000)).padStart(2,'0');
+    document.getElementById('cd-min').textContent=String(Math.floor((d%3600000)/60000)).padStart(2,'0');
+    document.getElementById('cd-seg').textContent=String(Math.floor((d%60000)/1000)).padStart(2,'0');
+  }
+  tick();setInterval(tick,1000);
+}
+</script>
+</body>
+</html>
