@@ -1,4 +1,4 @@
-# 🎀 Invitación Cumpleaños de Anna 👑
+# 🎀 Invitación Cumpleaños de Dayana 👑
 
 ## 📁 Estructura del proyecto
 
@@ -9,7 +9,7 @@ mi-proyecto/
 │   ├── music/
 │   │   └── cancion.mp3 ← pon aquí tu archivo de música
 │   └── img/
-│       └── anna.jpg    ← (opcional) foto de Anna
+│       └── dayana.jpg    ← (opcional) foto de Anna
 └── README.md
 ```
 
